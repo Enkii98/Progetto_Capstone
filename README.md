@@ -1,27 +1,37 @@
 # ProgettoCapstone
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.10.
+Il mio capstone project --> RasterArt
 
-## Development server
+# IMPORTANTE
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+(La cartella del Back-End è nella cartella principale del progetto angular )
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+**Caratteristiche**
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Un forum simile a "DeviantArt"
 
-## Running unit tests
+- Utilizzo della "Pexels API" recupero immagini
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- Sviluppato in SpringBoot e Angular
+  (se troppi problemi completo sviluppo in SpringBoot)
 
-## Running end-to-end tests
+- Utilizzo Postgresql
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+- Spring Security
 
-## Further help
+**Implementazioni non ancora sicure**
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Integrare una AI per la generazione di immagini
+
+- Pagamenti per le immagini
+
+- Chat in real time tra utenti registrati
+
+## Specifiche Angular:
+
+- Versione: 14.2.10
+- ng serve: alla porta 4200

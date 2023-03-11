@@ -1,0 +1,106 @@
+<div class="example-container">
+  <form
+    *ngIf="!isSuccessful"
+    [formGroup]="form"
+    (ngSubmit)="form.valid && onSubmit()"
+  >
+    <h2>Sign in</h2>
+    <mat-form-field>
+      <input
+        formControlName="name"
+        ngDefaultControl
+        matInput
+        placeholder="Name"
+      />
+      <mat-error *ngIf="!getErrorMessage('name', 'required')"
+        >You can only use letters</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('name', 'required')"
+        >You must enter a value</mat-error
+      > </mat-form-field
+    ><mat-form-field
+      ><input
+        formControlName="surname"
+        ngDefaultControl
+        matInput
+        placeholder="Surname"
+      />
+      <mat-error *ngIf="!getErrorMessage('surname', 'required')"
+        >You can only use letters</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('surname', 'required')"
+        >You must enter a value</mat-error
+      > </mat-form-field
+    ><mat-form-field
+      ><input
+        formControlName="username"
+        ngDefaultControl
+        matInput
+        placeholder="Username"
+      />
+      <mat-error *ngIf="getErrorMessage('username', 'minLength')"
+        >Must contain at least 3 characters</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('username', 'required')"
+        >You must enter a value</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('username', 'maxLength')"
+        >Can contain up to 20 characters</mat-error
+      > </mat-form-field
+    ><mat-form-field
+      ><input
+        formControlName="email"
+        ngDefaultControl
+        matInput
+        placeholder="Email"
+      />
+      <mat-error *ngIf="getErrorMessage('email', 'email')"
+        >Must have an email format</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('email', 'required')"
+        >You must enter a value</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('email', 'pattern')"
+        >Must have an email format</mat-error
+      > </mat-form-field
+    ><mat-form-field
+      ><input
+        formControlName="password"
+        ngDefaultControl
+        matInput
+        placeholder="Password"
+      />
+      <mat-error *ngIf="getErrorMessage('password', 'minLength')"
+        >Must contain at least 6 characters</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('password', 'required')"
+        >You must enter a value</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('password', 'pattern')"
+        >Must contain:<br />- Capital letter<br />- Lowercase letter<br />-
+        Number<br />- Special character</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('password', 'maxLength')"
+        >Can contain up to 40 characters</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field>
+      <input
+        formControlName="confirmPassword"
+        ngDefaultControl
+        matInput
+        placeholder="ConfirmPassword"
+      />
+      <mat-error *ngIf="getErrorMessage('confirmPassword', 'required')"
+        >You must enter a value</mat-error
+      ><mat-error *ngIf="!getErrorMessage('confirmPassword', 'required')"
+        >Password and confirm password don't match</mat-error
+      >
+    </mat-form-field>
+
+    <button [disabled]="!check(form)" type="submit" mat-raised-button>
+      sign
+    </button>
+    <button (click)="onReset()" mat-raised-button>reset</button>
+  </form>
+</div>

@@ -1,0 +1,36 @@
+<form
+  *ngIf="!isLoggedIn"
+  [formGroup]="form"
+  (ngSubmit)="form.valid && onSubmit()"
+  #f="ngForm"
+>
+  <h2>login</h2>
+  <mat-form-field>
+    <input
+      formControlName="username"
+      ngDefaultControl
+      matInput
+      placeholder="Username"
+    />
+    <mat-error *ngIf="getErrorMessage('username', 'required')"
+      >You must enter a value</mat-error
+    >
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      formControlName="password"
+      ngDefaultControl
+      matInput
+      placeholder="Password"
+    />
+    <mat-error *ngIf="getErrorMessage('password', 'required')"
+      >You must enter a value</mat-error
+    >
+  </mat-form-field>
+
+  <button [disabled]="!check(form)" type="submit" mat-raised-button>
+    Basic
+  </button>
+</form>
+
+<div *ngIf="isLoggedIn">Logged in as {{ roles }} e nome {{ names }}.</div>
