@@ -12,22 +12,21 @@ Il mio capstone project --> RasterArt
 
 **Caratteristiche**
 
-- Un forum simile a "DeviantArt"
+- Un forum simile a "DeviantArt" / Instagram
 
 - Utilizzo della "Pexels API" recupero immagini
 
 - Sviluppato in SpringBoot e Angular
-  (se troppi problemi completo sviluppo in SpringBoot)
 
 - Utilizzo Postgresql
 
 - Spring Security
 
+- JWT CookieToken
+
 **Implementazioni non ancora sicure**
 
 - Integrare una AI per la generazione di immagini
-
-- Pagamenti per le immagini
 
 - Chat in real time tra utenti registrati
 
