@@ -1,0 +1,4 @@
+<div *ngFor="let photo of homePhoto">
+  <a routerLink="friend" (click)="captureClick($event)">{{ photo.nickname }}</a>
+  <img [src]="photo.url" />
+</div>

@@ -1,0 +1,14 @@
+<h1>Profilo di: {{ currentUser }}</h1>
+<button (click)="onDeleteUser()">elimina</button>
+<br />
+<h2>Amici:</h2>
+<div *ngFor="let follow of follows">
+  <h3>
+    <a routerLink="friend" (click)="captureClick($event)">{{ follow }}</a>
+  </h3>
+</div>
+<br />
+<h2>Foto:</h2>
+<div *ngFor="let photo of myPhotos">
+  <img [src]="photo.url" />
+</div>

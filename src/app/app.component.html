@@ -1,3 +1,4 @@
 <a href="/login" routerLink="login">Login</a>
-<a href="/signin" routerLink="signin">Login</a>
+<a href="/signin" routerLink="signin">signin</a>
+<button *ngIf="logged()" (click)="logout()">logout</button>
 <router-outlet></router-outlet>

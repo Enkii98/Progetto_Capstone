@@ -1,0 +1,35 @@
+<div>
+  <div class="submit-form">
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="title">Url</label>
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          required
+          [(ngModel)]="photo.url"
+          name="title"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Alt</label>
+        <input
+          class="form-control"
+          id="description"
+          required
+          [(ngModel)]="photo.alt"
+          name="description"
+        />
+      </div>
+
+      <button (click)="savePhoto()" class="btn btn-success">Submit</button>
+    </div>
+
+    <div *ngIf="submitted">
+      <h4>Photo was submitted successfully!</h4>
+      <button class="btn btn-success" (click)="newPhoto()">Add</button>
+    </div>
+  </div>
+</div>

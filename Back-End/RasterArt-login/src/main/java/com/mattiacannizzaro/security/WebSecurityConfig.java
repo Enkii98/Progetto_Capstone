@@ -19,8 +19,12 @@ import com.mattiacannizzaro.security.jwt.AuthTokenFilter;
 import com.mattiacannizzaro.security.services.UserDetailsServiceImpl;
 
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig {
+//@EnableWebSecurity
+@EnableGlobalMethodSecurity(
+		// securedEnabled = true,
+		// jsr250Enabled = true,
+		prePostEnabled = true)
+public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
 

@@ -1,0 +1,12 @@
+<h1>users</h1>
+<ul>
+  <li *ngFor="let users of usersList; let i = index">
+    <h3>{{ users.username }}</h3>
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <a href="#" class="btn btn-primary">Know more</a>
+      <button (click)="follow(i)">add photo</button>
+      <p>siamo al numero:{{ i + 1 }}</p>
+    </div>
+  </li>
+</ul>

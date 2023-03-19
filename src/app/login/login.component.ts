@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../_services/_services/auth.service';
-import { StorageService } from '../_services/_services/storage.service';
+import { AuthService } from '../_services/auth.service';
+import { StorageService } from '../_services/storage.service';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { UtilityFunctionsService } from '../_services/utility-functions.service';
+import { User } from '../_interfaces/User';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -25,11 +28,16 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   roles: string[] = [];
   names: string[] = [];
+  usernames: string[] = [];
+  friendList: string[] = [];
+  usersList: User[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private utility: UtilityFunctionsService,
+    private usersService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +50,14 @@ export class LoginComponent implements OnInit {
       this.isLoggedIn = true;
       this.roles = this.storageService.getUser().roles;
       this.names = this.storageService.getUser().name;
+      this.usernames = this.storageService.getUser().username;
+      //localStorage
+      localStorage.setItem('username', this.storageService.getUser().username);
+      localStorage.setItem('id', this.storageService.getUser().id);
+      this.usersService.getAllUsers().subscribe((users) => {
+        this.usersList = users;
+        localStorage.setItem('list', JSON.stringify(this.usersList));
+      });
     }
   }
 
@@ -69,18 +85,23 @@ export class LoginComponent implements OnInit {
     window.location.reload();
   }
 
-  check(form: FormGroup | null): boolean {
-    // Se il FormGroup è nullo, disabilita il bottone
-    if (!form) {
-      return false;
-    }
+  logout(): void {
+    this.authService.logout().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.storageService.clean();
 
-    // Verifica se ogni campo del FormGroup è stato completato
-    const formValues = Object.values(form.value);
-    const isFormComplete = formValues.every((value) => !!value);
+        window.location.reload();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 
-    // Abilita il bottone solo se il FormGroup è completo
-    return isFormComplete;
+  //abilita-disabilita bottone invio dati se tutti i cambi sono compilati
+  loginCheck(form: FormGroup | null): boolean {
+    return this.utility.check(form);
   }
 
   ////////////////////////ERRORI//////////////////////////////////

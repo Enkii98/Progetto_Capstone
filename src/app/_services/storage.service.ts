@@ -28,6 +28,16 @@ export class StorageService {
     return {};
   }
 
+  public getUsername(): any {
+    const user = window.sessionStorage.getItem(USER_KEY);
+    if (user) {
+      const obj = JSON.parse(user);
+      return Object.keys(obj).map((key) => obj[key]);
+    }
+
+    return {};
+  }
+
   public isLoggedIn(): boolean {
     const user = window.sessionStorage.getItem(USER_KEY);
     if (user) {

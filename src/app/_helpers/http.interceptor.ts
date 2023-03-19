@@ -1,4 +1,5 @@
-//mette in comunicazione back-end e front-end
+//mette in comunicazione back-end e front-end convalidando gli indirizzi
+//gestione logout quando il token e scaduto
 
 import { Injectable } from '@angular/core';
 import {
@@ -7,25 +8,55 @@ import {
   HttpHandler,
   HttpRequest,
   HTTP_INTERCEPTORS,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
+import { StorageService } from '../_services/storage.service';
+import { EventBusService } from '../_services/_shared/event-bus.service';
+import { EventData } from '../_services/_shared/event.class';
 
 @Injectable()
-
-//implements HttpInterceptor aggiunge automaticamente { withCredentials: true } ogni richiesta
-//
 export class HttpRequestInterceptor implements HttpInterceptor {
+  private isRefreshing = false;
+
+  constructor(
+    private storageService: StorageService,
+    private eventBusService: EventBusService
+  ) {}
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     req = req.clone({
-      //il browser include i cookie nell'intestazione della richiesta
-      //
       withCredentials: true,
     });
 
-    return next.handle(req);
+    return next.handle(req).pipe(
+      catchError((error) => {
+        if (
+          error instanceof HttpErrorResponse &&
+          !req.url.includes('auth/signin') &&
+          error.status === 401
+        ) {
+          return this.handle401Error(req, next);
+        }
+
+        return throwError(() => error);
+      })
+    );
+  }
+
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+
+      if (this.storageService.isLoggedIn()) {
+        this.eventBusService.emit(new EventData('logout', null));
+      }
+    }
+
+    return next.handle(request);
   }
 }
 

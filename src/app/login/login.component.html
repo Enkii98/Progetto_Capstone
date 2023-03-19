@@ -28,9 +28,11 @@
     >
   </mat-form-field>
 
-  <button [disabled]="!check(form)" type="submit" mat-raised-button>
+  <button [disabled]="!loginCheck(form)" type="submit" mat-raised-button>
     Basic
   </button>
 </form>
 
-<div *ngIf="isLoggedIn">Logged in as {{ roles }} e nome {{ names }}.</div>
+<div *ngIf="isLoggedIn">
+  Logged in as {{ roles }} e nome {{ names }} e username {{ usernames }}
+</div>

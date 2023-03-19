@@ -98,7 +98,7 @@
       >
     </mat-form-field>
 
-    <button [disabled]="!check(form)" type="submit" mat-raised-button>
+    <button [disabled]="!signinCheck(form)" type="submit" mat-raised-button>
       sign
     </button>
     <button (click)="onReset()" mat-raised-button>reset</button>

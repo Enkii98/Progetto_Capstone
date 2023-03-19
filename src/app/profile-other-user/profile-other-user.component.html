@@ -1,0 +1,6 @@
+<h1>Profilo di: {{ user }}</h1>
+<br />
+<h2>Foto:</h2>
+<div *ngFor="let photo of friendPhotos">
+  <img [src]="photo.url" />
+</div>

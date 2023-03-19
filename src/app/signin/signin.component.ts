@@ -7,8 +7,8 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { UtilityFunctionsService } from '../_services/_services/utility-functions.service';
-import { AuthService } from '../_services/_services/auth.service';
+import { UtilityFunctionsService } from '../_services/utility-functions.service';
+import { AuthService } from '../_services/auth.service';
 import { Observable } from 'rxjs';
 
 export function onlyLetters(
@@ -37,7 +37,6 @@ export class SigninComponent implements OnInit {
     email: new FormControl(''),
     password: new FormControl(''),
     confirmPassword: new FormControl(''),
-    // acceptTerms: new FormControl(false),
   });
 
   submitted = false;
@@ -48,7 +47,7 @@ export class SigninComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private customValidation: UtilityFunctionsService,
+    private utility: UtilityFunctionsService,
     private authService: AuthService
   ) {}
 
@@ -88,9 +87,7 @@ export class SigninComponent implements OnInit {
         // acceptTerms: [false, Validators.requiredTrue],
       },
       {
-        validators: [
-          this.customValidation.matchPassword('password', 'confirmPassword'),
-        ],
+        validators: [this.utility.matchPassword('password', 'confirmPassword')],
       }
     );
   }
@@ -115,16 +112,13 @@ export class SigninComponent implements OnInit {
 
     this.authService
       .register(
-        this.customValidation.capitalizeFirstLetter(
-          this.form.get('name')?.value,
-          true
-        ),
-        this.customValidation.capitalizeFirstLetter(
+        this.utility.capitalizeFirstLetter(this.form.get('name')?.value, true),
+        this.utility.capitalizeFirstLetter(
           this.form.get('surname')?.value,
           true
         ),
         this.form.get('username')?.value,
-        this.customValidation.capitalizeFirstLetter(
+        this.utility.capitalizeFirstLetter(
           this.form.get('email')?.value,
           false
         ),
@@ -150,18 +144,10 @@ export class SigninComponent implements OnInit {
     this.form.reset();
   }
 
-  check(form: FormGroup | null): boolean {
-    // Se il FormGroup è nullo, disabilita il bottone
-    if (!form) {
-      return false;
-    }
+  //abilita-disabilita bottone invio dati se tutti i cambi sono compilati
 
-    // Verifica se ogni campo del FormGroup è stato completato
-    const formValues = Object.values(form.value);
-    const isFormComplete = formValues.every((value) => !!value);
-
-    // Abilita il bottone solo se il FormGroup è completo
-    return isFormComplete;
+  signinCheck(form: FormGroup | null): boolean {
+    return this.utility.check(form);
   }
 
   ////////////////////////ERRORI//////////////////////////////////

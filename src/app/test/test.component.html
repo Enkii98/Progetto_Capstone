@@ -1,0 +1,14 @@
+<h1>Photos</h1>
+<ul>
+  <li *ngFor="let photo of displayedPhotos; let i = index">
+    <img [src]="photo.url" [alt]="photo.title" />
+    <p>{{ photo.title }}</p>
+    <div class="card-body">
+      <h5 class="card-title">Card title</h5>
+      <a href="#" class="btn btn-primary">Know more</a>
+      <button (click)="getElement(i)">add photo</button>
+      <p>siamo al numero:{{ i }}</p>
+    </div>
+  </li>
+</ul>
+<button (click)="loadMore()">Carica più foto</button>
