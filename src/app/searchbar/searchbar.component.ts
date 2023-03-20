@@ -83,4 +83,16 @@ export class SearchbarComponent implements OnInit {
     var newObj = obj.filter((item: { id: number }) => item.id !== id);
     return newObj;
   }
+
+  unfollow(index: number) {
+    const data = this.viewList[index].username;
+    console.log('follow rimosso a : ', data);
+    this.userService.unfollow(data).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.submitted = true;
+      },
+      error: (e) => console.error(e),
+    });
+  }
 }

@@ -7,10 +7,6 @@ import { MyPhotos } from 'src/app/_interfaces/my-photos';
 
 const baseUrl = 'http://localhost:8080/api/test';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
-
 @Injectable({
   providedIn: 'root',
 })
@@ -23,19 +19,26 @@ export class PhotoServiceService {
   }
 
   delete(id: any): Observable<any> {
-    return this.http.delete(`${baseUrl}/${id}`);
+    return this.http.delete(`${baseUrl}/photos/${id}`);
   }
 
-  deleteAll(): Observable<any> {
-    return this.http.delete(baseUrl);
+  patch(id: Number, description: String): Observable<any> {
+    return this.http.patch(`${baseUrl}/photo/${id}/description`, description);
+  }
+
+  deleteAllUserPhotos(username: String): Observable<any> {
+    const url = `${baseUrl}/delete/all-photos`;
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: username,
+    };
+    return this.http.delete<any>(url, httpOptions);
   }
 
   findByUsername(user: any): Observable<MyPhotos[]> {
     return this.http.get<MyPhotos[]>(`${baseUrl}/users/${user}/photos`);
-  }
-
-  findByAlt(alt: any): Observable<MyPhotos[]> {
-    return this.http.get<MyPhotos[]>(`${baseUrl}?alt=${alt}`);
   }
 
   findAllfollowsPhotos(nicknameList: string[]): Observable<MyPhotos[]> {
@@ -43,4 +46,8 @@ export class PhotoServiceService {
       `${baseUrl}/byNickname?nicknameList=${nicknameList}`
     );
   }
+
+  // findByAlt(alt: any): Observable<MyPhotos[]> {
+  //   return this.http.get<MyPhotos[]>(`${baseUrl}?alt=${alt}`);
+  // }
 }

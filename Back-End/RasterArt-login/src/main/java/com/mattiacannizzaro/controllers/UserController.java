@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +35,6 @@ public class UserController {
 
 	@Autowired
 	RoleRepository roleRepository;
-
-	@PersistenceContext
-	private EntityManager entityManager;
 
 	@GetMapping("/user/id/{id}")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -116,6 +110,7 @@ public class UserController {
 		return ResponseEntity.ok(entity);
 	}
 
+	// elimina un profilo
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> deleteUserById(@PathVariable("id") Long id) {
 		Optional<User> userOptional = userRepository.findById(id);
@@ -127,6 +122,21 @@ public class UserController {
 		} else {
 			return ResponseEntity.notFound().build();
 		}
+	}
+
+	// togli il follow che ho messo
+	@PostMapping("/{id}/delete-follows")
+	public User deleteUserFollows(@PathVariable("id") Long userId, @RequestBody String username) {
+		// recupera l'utente dal database
+		User user = userRepository.findById(userId).get();
+
+		// rimuovi tutti gli elementi dell'array che contengono la stringa specificata
+		user.getFollows().removeIf(follow -> follow.contains(username));
+
+		// salva l'utente aggiornato nel database
+		userRepository.save(user);
+
+		return user;
 	}
 
 }

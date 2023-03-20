@@ -7,11 +7,13 @@ import {
   FormGroup,
 } from '@angular/forms';
 
+import { UserService } from './user.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UtilityFunctionsService {
-  linkData: any;
+  linkData!: String;
   //
   //match delle passsword
   //

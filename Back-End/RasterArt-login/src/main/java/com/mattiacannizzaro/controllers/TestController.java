@@ -2,6 +2,7 @@ package com.mattiacannizzaro.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -105,9 +107,21 @@ public class TestController {
 		}
 	}
 
+	@PatchMapping("/photo/{id}/description")
+	public ResponseEntity<?> updatePhotoDescription(@PathVariable Long id, @RequestBody String description) {
+		Optional<Photo> photoOptional = photoRepository.findById(id);
+		if (!photoOptional.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		Photo photo = photoOptional.get();
+		photo.setDescription(description);
+		photoRepository.save(photo);
+		return ResponseEntity.ok().build();
+	}
+
 	@DeleteMapping("/photos/{id}")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
+	public ResponseEntity<HttpStatus> deletePhoto(@PathVariable("id") Long id) {
 		try {
 			photoRepository.deleteById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -116,15 +130,12 @@ public class TestController {
 		}
 	}
 
-	@DeleteMapping("/photos")
+	@DeleteMapping("/delete/all-photos")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	public ResponseEntity<HttpStatus> deleteAllTutorials() {
-		try {
-			photoRepository.deleteAll();
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	public ResponseEntity<HttpStatus> deleteAllUserPhoto(@RequestBody String username) {
+		List<Photo> photosToDelete = photoRepository.findByNickname(username);
+		photoRepository.deleteAll(photosToDelete);
+		return ResponseEntity.noContent().build();
 
 	}
 

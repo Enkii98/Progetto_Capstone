@@ -11,4 +11,12 @@
 <h2>Foto:</h2>
 <div *ngFor="let photo of myPhotos">
   <img [src]="photo.url" />
+  <button (click)="deletePhoto(photo.id)">elimina</button>
+  <input
+    type="text"
+    id="description"
+    [(ngModel)]="currentDescription"
+    name="description"
+  />
+  <button (click)="updateDescription(photo.id)">modifca</button>
 </div>

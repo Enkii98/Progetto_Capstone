@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MyPhotos } from '../_interfaces/my-photos';
 import { AuthService } from '../_services/auth.service';
 import { PhotoServiceService } from '../_services/photo-service.service';
 import { StorageService } from '../_services/storage.service';
 import { UserService } from '../_services/user.service';
 import { UtilityFunctionsService } from '../_services/utility-functions.service';
+
+const currentUsername = localStorage.getItem('username');
 
 @Component({
   selector: 'app-profile',
@@ -14,6 +17,8 @@ import { UtilityFunctionsService } from '../_services/utility-functions.service'
 export class ProfileComponent implements OnInit {
   currentUser: String[] = [];
   currentUserId: Number[] = [];
+  @Input() currentDescription: string = '';
+  user: String = currentUsername!;
 
   follows: String[] = [];
 
@@ -24,7 +29,8 @@ export class ProfileComponent implements OnInit {
     private photoService: PhotoServiceService,
     private userService: UserService,
     private utility: UtilityFunctionsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -65,6 +71,21 @@ export class ProfileComponent implements OnInit {
       });
   }
 
+  updateDescription(index: any): void {
+    console.log(
+      'io sono la tua bellissima photo',
+      index,
+      this.currentDescription
+    );
+
+    this.photoService.patch(index, this.currentDescription).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (e) => console.error(e),
+    });
+  }
+
   captureClick(event: MouseEvent): void {
     const clickedLink = event.target as HTMLAnchorElement;
     const linkName = clickedLink.text;
@@ -75,14 +96,35 @@ export class ProfileComponent implements OnInit {
   }
 
   onDeleteUser() {
+    this.userService.deleteAllFollows(this.user).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (e) => console.error(e),
+    });
+
+    this.photoService.deleteAllUserPhotos(this.user).subscribe(() => {});
+
     this.userService
       .deleteUser()
       .then((response) => {
         console.log(response);
+        this.router.navigate(['/login']);
       })
       .catch((error) => {
         // Gestisci l'errore
         console.log(error);
       });
+  }
+
+  deletePhoto(index: any) {
+    console.log('id della foto: ', index);
+    this.photoService.delete(index).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.retrievePhoto();
+      },
+      error: (e) => console.error(e),
+    });
   }
 }

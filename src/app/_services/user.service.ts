@@ -42,6 +42,14 @@ export class UserService {
     return this.http.post<User>(url, follows);
   }
 
+  unfollow(username: string): Observable<User> {
+    const url = `${API_URL}/${localStorage.getItem('id')}/delete-follows`;
+
+    return this.http.post<User>(url, username, {
+      withCredentials: true,
+    });
+  }
+
   async deleteUser(): Promise<any> {
     try {
       const response = await this.http
@@ -53,5 +61,26 @@ export class UserService {
     } catch (error) {
       return console.log(error);
     }
+  }
+
+  // unfollow(user: String): Observable<User> {
+  //   const url = `${API_URL}/${localStorage.getItem(
+  //     'id'
+  //   )}/delete-follows?username=${user}`;
+  //   console.log(url);
+
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({
+  //       'Content-Type': 'application/json',
+  //     }),
+  //   };
+  //   return this.http.post<User>(url, {}, httpOptions);
+  // }
+
+  deleteAllFollows(username: any): Observable<any> {
+    console.log('io sono username:', username);
+    return this.http.delete(
+      `http://localhost:8080/api/public/deleteAllfollows?username=${username}`
+    );
   }
 }
