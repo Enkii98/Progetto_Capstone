@@ -29,11 +29,12 @@
 </div>
 <div class="container">
   <div class="row">
-    <div *ngFor="let pic of photos" class="col-sm-4">
+    <div *ngFor="let pic of photos; let i = index" class="col-sm-4">
       <div style="margin-top: 10px" class="card">
         <img class="card-img-top" [src]="pic.src.small" alt="Card image cap" />
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
+          <button (click)="getElement(i)">add photo</button>
           <a href="#" class="btn btn-primary">Know more</a>
         </div>
       </div>
