@@ -33,6 +33,7 @@ import { TestComponent } from './test/test.component';
 import { ListComponent } from './list/list.component';
 import { ProfileOtherUserComponent } from './profile-other-user/profile-other-user.component';
 import { HomeComponent } from './home/home.component';
+import { TestPexelsAPIComponent } from './test-pexels-api/test-pexels-api.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { HomeComponent } from './home/home.component';
     ListComponent,
     ProfileOtherUserComponent,
     HomeComponent,
+    TestPexelsAPIComponent,
   ],
   imports: [
     AppRoutingModule,
