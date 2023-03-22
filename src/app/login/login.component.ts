@@ -10,6 +10,7 @@ import {
 import { UtilityFunctionsService } from '../_services/utility-functions.service';
 import { User } from '../_interfaces/User';
 import { UserService } from '../_services/user.service';
+import { infoUser } from '../_interfaces/infoUser';
 
 @Component({
   selector: 'app-login',
@@ -29,8 +30,10 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
   names: string[] = [];
   usernames: string[] = [];
+  usernamesList: string[] = [];
   friendList: string[] = [];
   usersList: User[] = [];
+  userDetails: infoUser[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,6 +60,14 @@ export class LoginComponent implements OnInit {
       this.usersService.getAllUsers().subscribe((users) => {
         this.usersList = users;
         localStorage.setItem('list', JSON.stringify(this.usersList));
+      });
+      this.usersService.getAllUsernames().subscribe((users) => {
+        this.usernamesList = users;
+        console.log('lista di tutti: ', users);
+      });
+      this.usersService.getInfoByUsername().subscribe((users) => {
+        this.userDetails = users;
+        console.log('Dettagli Profilo: ', users);
       });
     }
   }

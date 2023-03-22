@@ -47,7 +47,15 @@ export class PhotoServiceService {
     );
   }
 
-  // findByAlt(alt: any): Observable<MyPhotos[]> {
-  //   return this.http.get<MyPhotos[]>(`${baseUrl}?alt=${alt}`);
-  // }
+  ////////////////////////////LIKE/////////////////////////////////
+
+  addLike(id: number | any): Observable<MyPhotos> {
+    const url = `${baseUrl}/${id}/like`;
+    return this.http.post<MyPhotos>(url, localStorage.getItem('username'));
+  }
+
+  removeLike(id: number | any): Observable<MyPhotos> {
+    const url = `${baseUrl}/delete/${id}/like`;
+    return this.http.post<MyPhotos>(url, localStorage.getItem('username'));
+  }
 }

@@ -18,7 +18,6 @@ export class AddComponent implements OnInit {
   photo: MyPhotos = {
     url: '',
     alt: '',
-    liked: false,
     nickname: currentUser,
   };
   submitted = false;
@@ -57,7 +56,6 @@ export class AddComponent implements OnInit {
     this.photo = {
       url: '',
       alt: '',
-      liked: false,
       nickname: currentUser,
     };
   }

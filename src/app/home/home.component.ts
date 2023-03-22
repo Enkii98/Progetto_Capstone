@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { MyPhotos } from '../_interfaces/my-photos';
 import { PhotoServiceService } from '../_services/photo-service.service';
 import { StorageService } from '../_services/storage.service';
@@ -15,6 +16,8 @@ export class HomeComponent implements OnInit {
   currentUserId: Number[] = [];
 
   follows: String[] = [];
+
+  likedPhoto$: Observable<MyPhotos> | undefined;
 
   homePhoto: MyPhotos[] = [];
 
@@ -98,5 +101,19 @@ export class HomeComponent implements OnInit {
     this.utility.linkData = linkName;
     sessionStorage.setItem('friend', linkName);
     console.log('Profilo selezionato di: ', linkName);
+  }
+
+  ////////////////////////LIKE//////////////////////////////
+
+  addLike(index: number | any): void {
+    this.photoService
+      .addLike(this.homePhoto[index].id)
+      .subscribe((photo) => {});
+  }
+
+  removeLike(index: number | any): void {
+    this.photoService
+      .removeLike(this.homePhoto[index].id)
+      .subscribe((photo) => {});
   }
 }

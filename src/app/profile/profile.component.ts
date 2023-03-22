@@ -18,6 +18,8 @@ export class ProfileComponent implements OnInit {
   currentUser: String[] = [];
   currentUserId: Number[] = [];
   @Input() currentDescription: string = '';
+  @Input() profileDescription: string = '';
+  @Input() profilePhoto: string = '';
   user: String = currentUsername!;
 
   follows: String[] = [];
@@ -71,7 +73,21 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  updateDescription(index: any): void {
+  updateDescriptionUser(): void {
+    console.log();
+    try {
+      this.userService.updateDescription(this.profileDescription).subscribe({});
+    } catch (error) {}
+  }
+
+  updatePhotoProfileUser(): void {
+    console.log();
+    try {
+      this.userService.updateProfilePhoto(this.profilePhoto).subscribe({});
+    } catch (error) {}
+  }
+
+  updateDescriptionPhoto(index: any): void {
     console.log(
       'io sono la tua bellissima photo',
       index,
@@ -104,6 +120,8 @@ export class ProfileComponent implements OnInit {
     });
 
     this.photoService.deleteAllUserPhotos(this.user).subscribe(() => {});
+
+    this.userService.deleteInfoByUsername(this.user).subscribe(() => {});
 
     this.userService
       .deleteUser()

@@ -10,7 +10,7 @@ import { TutorialListComponent } from './tutorial-list/tutorial-list.component';
 import { TestComponent } from './test/test.component';
 import { ProfileOtherUserComponent } from './profile-other-user/profile-other-user.component';
 import { HomeComponent } from './home/home.component';
-import { TestPexelsAPIComponent } from './test-pexels-api/test-pexels-api.component';
+import { PexelsPhotoComponent } from './pexels-photo/pexels-photo.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'profile/friend', component: ProfileOtherUserComponent },
   { path: 'home/friend', component: ProfileOtherUserComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'pexels', component: TestPexelsAPIComponent },
+  { path: 'pexels', component: PexelsPhotoComponent },
 ];
 
 @NgModule({

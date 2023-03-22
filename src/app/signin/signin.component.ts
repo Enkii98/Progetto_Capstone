@@ -10,6 +10,7 @@ import {
 import { UtilityFunctionsService } from '../_services/utility-functions.service';
 import { AuthService } from '../_services/auth.service';
 import { Observable } from 'rxjs';
+import { UserService } from '../_services/user.service';
 
 export function onlyLetters(
   control: AbstractControl
@@ -48,7 +49,8 @@ export class SigninComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private utility: UtilityFunctionsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private usersService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -102,6 +104,10 @@ export class SigninComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+
+    this.usersService
+      .createInfo(this.form.get('username')?.value)
+      .subscribe((users) => {});
 
     //da pulire
 

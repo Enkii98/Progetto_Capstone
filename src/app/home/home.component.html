@@ -1,4 +1,6 @@
-<div *ngFor="let photo of homePhoto">
+<div *ngFor="let photo of homePhoto; let i = index">
   <a routerLink="friend" (click)="captureClick($event)">{{ photo.nickname }}</a>
   <img [src]="photo.url" />
+  <button (click)="addLike(i)">like</button>
+  <button (click)="removeLike(i)">removelike</button>
 </div>

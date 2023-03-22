@@ -4,11 +4,11 @@ import { PexelPhotoSearchServiceService } from '../_services/pexel-photo-search-
 import { PhotoServiceService } from '../_services/photo-service.service';
 
 @Component({
-  selector: 'app-test-pexels-api',
-  templateUrl: './test-pexels-api.component.html',
-  styleUrls: ['./test-pexels-api.component.scss'],
+  selector: 'app-pexels-photo',
+  templateUrl: './pexels-photo.component.html',
+  styleUrls: ['./pexels-photo.component.scss'],
 })
-export class TestPexelsAPIComponent implements OnInit {
+export class PexelsPhotoComponent implements OnInit {
   searchData!: string;
   perPage: any;
   photos: Pexels[] = [];
@@ -40,7 +40,7 @@ export class TestPexelsAPIComponent implements OnInit {
     console.log('Elemento selezionato:', selectedItem);
     console.log('user', localStorage.getItem('username'));
     const data = {
-      url: selectedItem.url,
+      url: selectedItem.src.small,
       alt: selectedItem.alt,
       nickname: localStorage.getItem('username'),
     };

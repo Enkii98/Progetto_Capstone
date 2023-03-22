@@ -1,4 +1,19 @@
 <h1>Profilo di: {{ currentUser }}</h1>
+<input
+  type="text"
+  id="descriptionProfile"
+  [(ngModel)]="profileDescription"
+  name="descriptionProfile"
+/>
+<button (click)="updateDescriptionUser()">modifica description</button>
+<input
+  type="text"
+  id="profilePhoto"
+  [(ngModel)]="profilePhoto"
+  name="profilePhoto"
+/>
+<button (click)="updatePhotoProfileUser()">modifica Photo profilo</button>
+
 <button (click)="onDeleteUser()">elimina</button>
 <br />
 <h2>Amici:</h2>
@@ -18,5 +33,5 @@
     [(ngModel)]="currentDescription"
     name="description"
   />
-  <button (click)="updateDescription(photo.id)">modifca</button>
+  <button (click)="updateDescriptionPhoto(photo.id)">modifica</button>
 </div>

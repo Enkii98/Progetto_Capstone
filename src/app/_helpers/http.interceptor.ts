@@ -24,13 +24,25 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     private eventBusService: EventBusService
   ) {}
 
+  // intercept(
+  //   req: HttpRequest<any>,
+  //   next: HttpHandler
+  // ): Observable<HttpEvent<any>> {
+  //   req = req.clone({
+  //     withCredentials: true,
+  //   });
+
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    req = req.clone({
-      withCredentials: true,
-    });
+    // Check if the request URL contains 'localhost:8080'
+    if (req.url.indexOf('localhost:8080') !== -1) {
+      // Clone the request and add 'withCredentials: true'
+      req = req.clone({
+        withCredentials: true,
+      });
+    }
 
     return next.handle(req).pipe(
       catchError((error) => {
