@@ -1,9 +1,5 @@
 package com.mattiacannizzaro.models;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,23 +12,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "photo")
+@Table(name = "userInfo")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Photo {
-
+public class Info {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String url;
-	private String alt;
-	private String description;
-	private String nickname;
 
-	@Builder.Default
-	@ElementCollection
-	private Set<String> likes = new HashSet<>();
+	private String username;
+
+	private String profilePhoto;
+
+	private String description;
 
 }

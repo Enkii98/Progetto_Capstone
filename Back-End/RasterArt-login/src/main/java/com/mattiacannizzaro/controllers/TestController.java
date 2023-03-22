@@ -3,6 +3,7 @@ package com.mattiacannizzaro.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -97,8 +98,7 @@ public class TestController {
 	public ResponseEntity<Photo> addPhoto(@RequestBody Photo photo) {
 		try {
 
-			Photo _photo = photoRepository.save(Photo.builder().width(photo.getWidth()).height(photo.getHeight())
-					.url(photo.getUrl()).liked(photo.getLiked()).alt(photo.getAlt()).title(photo.getTitle())
+			Photo _photo = photoRepository.save(Photo.builder().url(photo.getUrl()).alt(photo.getAlt())
 					.description(photo.getDescription()).nickname(photo.getNickname()).build());
 
 			return new ResponseEntity<>(_photo, HttpStatus.CREATED);
@@ -170,4 +170,30 @@ public class TestController {
 //		}
 //	}
 
+	//////////////////////////////////////////////////////// LIKE//////////////////////////////////////////////////////
+	@PostMapping("/{id}/like")
+	public ResponseEntity<?> addLike(@PathVariable("id") Long id, @RequestBody String username) {
+		Optional<Photo> photoOptional = photoRepository.findById(id);
+		if (!photoOptional.isPresent()) {
+			return ResponseEntity.notFound().build();
+		}
+		Photo photo = photoOptional.get();
+		Set<String> likes = photo.getLikes();
+		likes.add(username);
+		photo.setLikes(likes);
+		photoRepository.save(photo);
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("delete/{id}/like")
+	public Photo removeLike(@PathVariable("id") Long userId, @RequestBody String username) {
+
+		Photo photo = photoRepository.findById(userId).get();
+
+		photo.getLikes().removeIf(likes -> likes.contains(username));
+
+		photoRepository.save(photo);
+
+		return photo;
+	}
 }

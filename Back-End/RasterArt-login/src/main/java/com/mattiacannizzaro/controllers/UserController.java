@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,15 +13,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mattiacannizzaro.models.Info;
 import com.mattiacannizzaro.models.User;
+import com.mattiacannizzaro.repository.InfoRepository;
 import com.mattiacannizzaro.repository.PhotoRepository;
-import com.mattiacannizzaro.repository.RoleRepository;
 import com.mattiacannizzaro.repository.UserRepository;
 
 @RestController
@@ -34,7 +37,7 @@ public class UserController {
 	UserRepository userRepository;
 
 	@Autowired
-	RoleRepository roleRepository;
+	InfoRepository infoRepository;
 
 	@GetMapping("/user/id/{id}")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -89,6 +92,13 @@ public class UserController {
 		}
 	}
 
+	@GetMapping("/usernames/list")
+	public List<String> getAllUsernames() {
+		List<User> userList = userRepository.findAll();
+		List<String> usernameList = userList.stream().map(User::getUsername).collect(Collectors.toList());
+		return usernameList;
+	}
+
 	@PostMapping("/{id}/add-string")
 	public ResponseEntity<User> addFollow(@PathVariable Long id, @RequestBody String newString) {
 		Optional<User> optionalEntity = userRepository.findById(id);
@@ -138,5 +148,58 @@ public class UserController {
 
 		return user;
 	}
+////////////////////////////////////////////INFO///////////////////////////////////////////////
 
+	@GetMapping("/info/username/{username}")
+	public Optional<Info> getInfoByUsername(@PathVariable("username") String username) {
+		return infoRepository.findByUsername(username);
+	}
+
+	@PostMapping("/info")
+	public ResponseEntity<Info> createInfo(@RequestBody String username) {
+		Info info = new Info();
+		info.setUsername(username);
+		infoRepository.save(info);
+		return ResponseEntity.ok(info);
+	}
+
+	@PatchMapping("/info/{username}/profile-photo")
+	public ResponseEntity<String> updateProfilePhoto(@PathVariable("username") String username,
+			@RequestBody String profilePhoto) {
+		Optional<Info> infos = infoRepository.findByUsername(username);
+		if (infos.isPresent()) {
+			Info info = infos.get();
+			info.setProfilePhoto(profilePhoto);
+			infoRepository.save(info);
+			return ResponseEntity.ok("Profile photo updated successfully.");
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@PatchMapping("/info/{username}/description")
+	public ResponseEntity<String> updateDescriptionProfile(@PathVariable("username") String username,
+			@RequestBody String description) {
+		Optional<Info> infos = infoRepository.findByUsername(username);
+		if (infos.isPresent()) {
+			Info info = infos.get();
+			info.setDescription(description);
+			infoRepository.save(info);
+			return ResponseEntity.ok("Description updated successfully.");
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@DeleteMapping("/delete/info/{username}")
+	public ResponseEntity<String> deleteInfoByUsername(@PathVariable("username") String username) {
+		Optional<Info> infoOptional = infoRepository.findByUsername(username);
+		if (infoOptional.isPresent()) {
+			Info info = infoOptional.get();
+			infoRepository.delete(info);
+			return ResponseEntity.ok("Info deleted successfully");
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
 }
