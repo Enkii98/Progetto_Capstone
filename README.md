@@ -28,8 +28,6 @@ Il mio capstone project --> RasterArt
 
 - Integrare una AI per la generazione di immagini
 
-- Chat in real time tra utenti registrati
-
 ## Specifiche Angular:
 
 - Versione: 14.2.10
