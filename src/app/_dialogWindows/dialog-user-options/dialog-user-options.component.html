@@ -4,7 +4,7 @@
       <mat-icon>insert_photo</mat-icon>
     </ng-template>
     <mat-form-field appearance="outline">
-      <mat-label>Change Profile Photo:</mat-label>
+      <mat-label>Change Profile Photo: (accept only URL)</mat-label>
       <input matInput [(ngModel)]="profilePhoto" />
       <mat-error *ngIf="!Checkimg()">Is accept only image</mat-error>
     </mat-form-field>

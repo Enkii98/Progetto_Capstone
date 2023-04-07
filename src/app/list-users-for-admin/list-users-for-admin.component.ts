@@ -5,6 +5,7 @@ import { UserService } from '../_services/user.service';
 import { UtilityFunctionsService } from '../_services/utility-functions.service';
 import { infoUser } from '../_interfaces/infoUser';
 import { PhotoServiceService } from '../_services/photo-service.service';
+import { Router } from '@angular/router';
 
 const currentUser = localStorage.getItem('id');
 
@@ -36,9 +37,6 @@ export class ListUsersForAdminComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    //////////////////////////////////////////////
-
-    ///////////////////////////////////////
     //
     //prendi user corrente se sei loggato e sei un admin
     //

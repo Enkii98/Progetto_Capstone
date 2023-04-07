@@ -57,20 +57,21 @@ export class ProfileOtherUserComponent implements OnInit {
       .getPhotosByLikes()
       .toPromise();
 
-    this.photoService.getPhotosByLikes().subscribe((photos: MyPhotos[]) => {
-      this.likedUserPhoto = photos;
-      this.likedUserPhoto!.filter((obj) => {
-        if (obj.nickname === sessionStorage.getItem('friend')) {
-          this.userLiked.push(obj);
+    if (this.likedUserPhoto!.length > 0) {
+      this.photoService.getPhotosByLikes().subscribe((photos: MyPhotos[]) => {
+        this.likedUserPhoto = photos;
+        this.likedUserPhoto!.filter((obj) => {
+          if (obj.nickname === sessionStorage.getItem('friend')) {
+            this.userLiked.push(obj);
+          }
+        });
+        for (let i = 0; i < this.friendPhotos.length; i++) {
+          this.liked.push(
+            this.utility.checkList(this.userLiked, this.friendPhotos, i)
+          );
         }
       });
-      for (let i = 0; i < this.friendPhotos.length; i++) {
-        this.liked.push(
-          this.utility.checkList(this.userLiked, this.friendPhotos, i)
-        );
-      }
-    });
-
+    }
     console.log(this.likedUserPhoto);
   }
 

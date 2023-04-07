@@ -29,6 +29,15 @@ export class DialogUserOptionsComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  replaceCommas(str: string) {
+    // controlla se la stringa contiene virgole
+    if (str.includes(',')) {
+      // sostituisce tutte le virgole con "&#44;"
+      str = str.replace(/,/g, ' ');
+    }
+    return str;
+  }
+
   updatePhotoProfileUser(): void {
     localStorage.setItem('userOptions', 'Photo');
     this.userService.updateProfilePhoto(this.profilePhoto).subscribe({
@@ -42,12 +51,14 @@ export class DialogUserOptionsComponent implements OnInit {
 
   updateDescriptionUser(): void {
     localStorage.setItem('userOptions', 'Users');
-    this.userService.updateDescription(this.profileDescription).subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-      error: (e) => (this.profileDescription = ''),
-    });
+    this.userService
+      .updateDescription(this.replaceCommas(this.profileDescription))
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+        },
+        error: (e) => (this.profileDescription = ''),
+      });
     this.onNoClick();
   }
 

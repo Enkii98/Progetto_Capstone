@@ -137,6 +137,8 @@ export class AppComponent {
       data: { add: this.addPhoto },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => {
+      window.location.reload();
+    });
   }
 }

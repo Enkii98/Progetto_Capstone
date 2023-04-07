@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StorageService } from '../_services/storage.service';
 
 export interface Tile {
   name: string;
@@ -13,7 +14,7 @@ export interface Tile {
   styleUrls: ['./showcase.component.scss'],
 })
 export class ShowcaseComponent implements OnInit {
-  constructor() {}
+  constructor(private storageService: StorageService) {}
 
   tiles: Tile[] = [
     {
@@ -77,6 +78,10 @@ export class ShowcaseComponent implements OnInit {
       rows: 1,
     },
   ];
+
+  logged(): boolean {
+    return this.storageService.isLoggedIn();
+  }
 
   ngOnInit(): void {}
 }
