@@ -24,10 +24,6 @@ Il mio capstone project --> RasterArt
 
 - JWT CookieToken
 
-**Implementazioni non ancora sicure**
-
-- Integrare una AI per la generazione di immagini
-
 ## Specifiche Angular:
 
 - Versione: 14.2.10
