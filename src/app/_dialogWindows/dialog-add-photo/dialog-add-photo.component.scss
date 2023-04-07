@@ -1,0 +1,20 @@
+.submit-form {
+  div {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: column !important;
+  }
+}
+
+.success {
+  h4 {
+    padding-inline: 10px;
+  }
+}
+
+.buttonNew {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-evenly;
+}

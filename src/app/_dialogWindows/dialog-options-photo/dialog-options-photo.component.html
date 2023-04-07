@@ -1,0 +1,48 @@
+<!-- <button (click)="deletePhoto()">elimina</button>
+<input
+  type="text"
+  id="description"
+  [(ngModel)]="currentDescription"
+  name="description"
+/>
+<button (click)="updateDescriptionPhoto()">modifica</button>
+<button (click)="updateProfilePhoto()">profilo</button> -->
+
+<mat-selection-list *ngIf="!openInput" [multiple]="false">
+  <mat-list-option (click)="openInfo()"
+    ><p><mat-icon>info</mat-icon>&nbsp;&nbsp;Info</p></mat-list-option
+  >
+  <mat-list-option (click)="updateProfilePhoto()"
+    ><p>
+      <mat-icon>account_circle</mat-icon>&nbsp;&nbsp;Set as Profile photo
+    </p></mat-list-option
+  >
+  <mat-list-option (click)="openInput = true"
+    ><p>
+      <mat-icon>mode_edit</mat-icon>&nbsp;&nbsp;Edit Description
+    </p></mat-list-option
+  >
+  <mat-list-option (click)="deletePhoto()"
+    ><p [ngStyle]="{ color: '#d40000' }">
+      <mat-icon>delete</mat-icon>&nbsp;&nbsp; Delete Photo
+    </p>
+  </mat-list-option>
+</mat-selection-list>
+
+<div *ngIf="openInput">
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea
+      [(ngModel)]="currentDescription"
+      matInput
+      placeholder="Type anything..."
+    ></textarea>
+  </mat-form-field>
+  <button mat-raised-button (click)="updateDescriptionPhoto()">Edit</button>
+  <button
+    mat-raised-button
+    (click)="openInput = false; currentDescription = ''"
+  >
+    Cancel
+  </button>
+</div>

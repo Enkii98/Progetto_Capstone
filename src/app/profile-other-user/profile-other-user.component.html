@@ -1,6 +1,61 @@
-<h1>Profilo di: {{ user }}</h1>
-<br />
-<h2>Foto:</h2>
-<div *ngFor="let photo of friendPhotos">
-  <img [src]="photo.url" />
+<div class="UserInfo">
+  <div class="header">
+    <h1>{{ user }}</h1>
+  </div>
+  <img
+    class="ProfilePhoto"
+    [src]="infoPhoto"
+    *ngIf="infoPhoto"
+    alt="Profile photo"
+  />
+  <mat-icon class="ProfileIcon" *ngIf="!infoPhoto" aria-hidden="false"
+    >account_circle</mat-icon
+  >
+
+  <p *ngIf="infoDesc">{{ infoDesc }}</p>
+  <p *ngIf="!infoDesc">No Description</p>
+  <br />
+
+  <button mat-raised-button *ngIf="!flw" (click)="follow()">Follow</button>
+  <button
+    mat-raised-button
+    [ngStyle]="{ background: '#575757' }"
+    *ngIf="flw"
+    (click)="unfollow()"
+  >
+    Unfollow
+  </button>
 </div>
+
+<mat-tab-group>
+  <mat-tab label="Photo">
+    <mat-grid-list cols="3" rowHeight="1:1">
+      <mat-grid-tile
+        *ngFor="let photo of friendPhotos; let i = index"
+        colspan="1"
+      >
+        <div class="photoContainer">
+          <img
+            class="scale-in-center"
+            (click)="showImage(photo.url!)"
+            [src]="photo.url"
+          />
+          <div class="btn">
+            <button mat-icon-button *ngIf="!liked[i]" (click)="addLike(i)">
+              <mat-icon *ngIf="!liked[i]" id="noLiked">favorite</mat-icon>
+            </button>
+            <button mat-icon-button *ngIf="liked[i]" (click)="removeLike(i)">
+              <mat-icon *ngIf="liked[i]" id="liked">favorite</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              (click)="Details(photo.nickname, photo.alt, photo.description)"
+            >
+              <mat-icon>info</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-tab>
+</mat-tab-group>

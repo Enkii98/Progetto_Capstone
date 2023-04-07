@@ -1,43 +1,37 @@
-<div class="card-header main-search">
-  <div class="row">
-    <div class="col-12 col-md-3 col-xl-3">
-      <input
-        [(ngModel)]="searchData"
-        class="AutoFocus form-control"
-        placeholder="Type something..."
-        type="text"
-      />
-    </div>
-    <div class="col-12 col-md-3 col-xl-3">
-      <input
-        name="deliveryNumber"
-        [(ngModel)]="perPage"
-        class="AutoFocus form-control"
-        placeholder="No of Images"
-        type="text"
-      />
-    </div>
-    <div class="ml-auto">
-      <input
-        type="button"
-        (click)="search()"
-        value="Search"
-        class="btn btn-primary search-btn"
-      />
-    </div>
-  </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div *ngFor="let pic of photos; let i = index" class="col-sm-4">
-      <div style="margin-top: 10px" class="card">
-        <img class="card-img-top" [src]="pic.src.small" alt="Card image cap" />
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <button (click)="getElement(i)">add photo</button>
-          <a href="#" class="btn btn-primary">Know more</a>
-        </div>
+<div class="pexel-container">
+  <mat-grid-list cols="3" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let pic of photos; let i = index">
+      <div class="buttonContainerPhoto scale-in-center">
+        <img
+          class="zoom"
+          [src]="pic.src.medium"
+          [alt]="pic.alt"
+          (click)="showImage(pic.src.medium)"
+        />
+
+        <button
+          *ngIf="logged()"
+          mat-raised-button
+          [disabled]="buttonDisabled[i]"
+          color="warn"
+          (click)="getElement(i)"
+        >
+          <mat-icon>bookmark</mat-icon>
+        </button>
       </div>
-    </div>
-  </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
+
+<div class="space"></div>
+
+<ng-container *ngIf="photos.length > 0; else noResults">
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="21"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
+</ng-container>
+<ng-template #noResults>
+  <p>Results not found</p>
+</ng-template>

@@ -11,6 +11,8 @@ import { UtilityFunctionsService } from '../_services/utility-functions.service'
 import { User } from '../_interfaces/User';
 import { UserService } from '../_services/user.service';
 import { infoUser } from '../_interfaces/infoUser';
+import { PhotoServiceService } from '../_services/photo-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +24,9 @@ export class LoginComponent implements OnInit {
     username: new FormControl(''),
     password: new FormControl(''),
   });
+
+  //bottone visibilita password
+  hide = true;
 
   buttonDisabled = true;
   isLoggedIn = false;
@@ -40,7 +45,9 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private storageService: StorageService,
     private utility: UtilityFunctionsService,
-    private usersService: UserService
+    private usersService: UserService,
+    private photoService: PhotoServiceService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -63,12 +70,15 @@ export class LoginComponent implements OnInit {
       });
       this.usersService.getAllUsernames().subscribe((users) => {
         this.usernamesList = users;
-        console.log('lista di tutti: ', users);
       });
-      this.usersService.getInfoByUsername().subscribe((users) => {
-        this.userDetails = users;
-        console.log('Dettagli Profilo: ', users);
-      });
+      this.usersService
+        .getInfoByUsername(localStorage.getItem('username')!)
+        .subscribe((users) => {
+          this.userDetails = users;
+        });
+      if (this.router.url === '/login') {
+        this.router.navigate(['/profile']);
+      }
     }
   }
 
@@ -78,22 +88,20 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.storageService.saveUser(data);
-
           this.isLoginFailed = false;
           this.isLoggedIn = true;
           this.roles = this.storageService.getUser().roles;
           this.names = this.storageService.getUser().name;
-          this.reloadPage();
+          this.router.navigate(['/profile']);
+          setTimeout(() => {
+            window.location.reload();
+          });
         },
         error: (err) => {
           this.errorMessage = err.error.message;
           this.isLoginFailed = true;
         },
       });
-  }
-
-  reloadPage(): void {
-    window.location.reload();
   }
 
   logout(): void {
@@ -112,7 +120,7 @@ export class LoginComponent implements OnInit {
 
   //abilita-disabilita bottone invio dati se tutti i cambi sono compilati
   loginCheck(form: FormGroup | null): boolean {
-    return this.utility.check(form);
+    return this.utility.checkLogin(form);
   }
 
   ////////////////////////ERRORI//////////////////////////////////

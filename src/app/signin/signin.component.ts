@@ -11,6 +11,8 @@ import { UtilityFunctionsService } from '../_services/utility-functions.service'
 import { AuthService } from '../_services/auth.service';
 import { Observable } from 'rxjs';
 import { UserService } from '../_services/user.service';
+import { Router } from '@angular/router';
+import { StorageService } from '../_services/storage.service';
 
 export function onlyLetters(
   control: AbstractControl
@@ -40,6 +42,12 @@ export class SigninComponent implements OnInit {
     confirmPassword: new FormControl(''),
   });
 
+  //visibilità password
+  hide = true;
+
+  usernamesList: string[] | undefined;
+  emailList: string[] | undefined;
+
   submitted = false;
   //jwt
   isSuccessful = false;
@@ -50,20 +58,41 @@ export class SigninComponent implements OnInit {
     private formBuilder: FormBuilder,
     private utility: UtilityFunctionsService,
     private authService: AuthService,
-    private usersService: UserService
+    private usersService: UserService,
+    private router: Router,
+    private storageService: StorageService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    if (this.storageService.isLoggedIn()) {
+      this.router.navigate(['/profile']);
+    }
+
+    this.usernamesList = await this.usersService.getAllUsernames().toPromise();
+    this.emailList = await this.usersService.getAllEmails().toPromise();
+
     this.form = this.formBuilder.group(
       {
-        name: ['', Validators.required, onlyLetters],
-        surname: ['', Validators.required, onlyLetters],
+        name: [
+          '',
+          Validators.required,
+          onlyLetters,
+          Validators.pattern(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/),
+        ],
+        surname: [
+          '',
+          Validators.required,
+          onlyLetters,
+          Validators.pattern(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/),
+        ],
         username: [
           '',
           [
             Validators.required,
             Validators.minLength(3),
             Validators.maxLength(20),
+            this.utility.matchNewUser(this.usernamesList!),
+            Validators.pattern(/^[a-zA-Z]+(?: [a-zA-Z]+)*$/),
           ],
         ],
         email: [
@@ -72,6 +101,7 @@ export class SigninComponent implements OnInit {
             Validators.required,
             Validators.email,
             Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'),
+            this.utility.matchNewUser(this.emailList!),
           ],
         ],
         password: [
@@ -105,15 +135,6 @@ export class SigninComponent implements OnInit {
       return;
     }
 
-    this.usersService
-      .createInfo(this.form.get('username')?.value)
-      .subscribe((users) => {});
-
-    //da pulire
-
-    console.log(JSON.stringify(this.form.value, null, 2));
-    console.log(this.form.get('name')?.value);
-
     //sub dei dati del form nel db back-end
 
     this.authService
@@ -135,6 +156,7 @@ export class SigninComponent implements OnInit {
           console.log(data);
           this.isSuccessful = true;
           this.isSignUpFailed = false;
+          this.router.navigate(['/login']);
         },
         error: (err) => {
           this.errorMessage = err.error.message;
@@ -152,8 +174,23 @@ export class SigninComponent implements OnInit {
 
   //abilita-disabilita bottone invio dati se tutti i cambi sono compilati
 
-  signinCheck(form: FormGroup | null): boolean {
-    return this.utility.check(form);
+  signinCheck(
+    form: FormGroup | null,
+    username: string,
+    email: string
+  ): boolean {
+    if (
+      this.utility.check(form) &&
+      !this.usernamesList?.includes(username) &&
+      !this.emailList?.includes(email) &&
+      this.form.get('username')!.value.length >= 3 &&
+      !this.form.controls['username'].hasError('pattern') &&
+      !this.form.controls['email'].hasError('pattern')
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   ////////////////////////ERRORI//////////////////////////////////

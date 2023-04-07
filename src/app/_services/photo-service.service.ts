@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MyPhotos } from 'src/app/_interfaces/my-photos';
 
-const baseUrl = 'http://localhost:8080/api/test';
+const baseUrl = 'http://localhost:8080/api/img';
 
 @Injectable({
   providedIn: 'root',
@@ -48,6 +48,11 @@ export class PhotoServiceService {
   }
 
   ////////////////////////////LIKE/////////////////////////////////
+
+  getPhotosByLikes(): Observable<MyPhotos[]> {
+    const url = `${baseUrl}/likes/${localStorage.getItem('username')}`;
+    return this.http.get<MyPhotos[]>(url);
+  }
 
   addLike(id: number | any): Observable<MyPhotos> {
     const url = `${baseUrl}/${id}/like`;

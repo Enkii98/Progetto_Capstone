@@ -49,7 +49,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 			response.setStatus(HttpServletResponse.SC_OK);
 			final Map<String, Object> body = new HashMap<>();
 			body.put("status", HttpServletResponse.SC_OK);
-			body.put("message", "Questa operazione è disponibile pubblicamente");
+			body.put("message", "This operation is public");
 			final ObjectMapper mapper = new ObjectMapper();
 			mapper.writeValue(response.getOutputStream(), body);
 		} else {

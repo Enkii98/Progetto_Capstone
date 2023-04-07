@@ -1,5 +1,3 @@
-import { User } from './User';
-
 export interface MyPhotos {
   id?: Number;
   url?: String;

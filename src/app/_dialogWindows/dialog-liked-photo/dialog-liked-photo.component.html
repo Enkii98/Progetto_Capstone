@@ -1,0 +1,9 @@
+<mat-selection-list [multiple]="false">
+  <mat-list-option (click)="openInfo()"
+    ><p><mat-icon>info</mat-icon>&nbsp;&nbsp;Info</p></mat-list-option
+  >
+
+  <mat-list-option (click)="removeLike()"
+    ><p [ngStyle]="{ color: '#d40000' }">Remove Like</p>
+  </mat-list-option>
+</mat-selection-list>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mattiacannizzaro.models.Info;
@@ -39,33 +40,22 @@ public class UserController {
 	@Autowired
 	InfoRepository infoRepository;
 
-	@GetMapping("/user/id/{id}")
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
-		Optional<User> user = userRepository.findById(id);
-
-		if (user.isPresent()) {
-			return new ResponseEntity<>(user.get(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
+	@GetMapping("/admin")
+	@PreAuthorize("hasRole('ADMIN')")
+	public boolean adminAccess() {
+		return true;
 	}
 
-	@GetMapping("/user/username/{username}")
+	@GetMapping("/search/{user}")
 	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-	public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username) {
-		Optional<User> user = userRepository.findByUsername(username);
-
-		if (user.isPresent()) {
-			return new ResponseEntity<>(user.get(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-
+	public List<String> searchUsers(@PathVariable("user") String search, @RequestParam String username) {
+		List<String> usernames = userRepository.findUsernamesContainingSearchString(search);
+		usernames.remove(username);
+		return usernames;
 	}
 
 	@GetMapping("/{id}/follows")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public Set<String> getFollowsByUserId(@PathVariable Long id) {
 		Optional<User> user = userRepository.findById(id);
 		if (user != null) {
@@ -99,7 +89,15 @@ public class UserController {
 		return usernameList;
 	}
 
+	@GetMapping("/emails/list")
+	public List<String> getAllEmails() {
+		List<User> userList = userRepository.findAll();
+		List<String> emailList = userList.stream().map(User::getEmail).collect(Collectors.toList());
+		return emailList;
+	}
+
 	@PostMapping("/{id}/add-string")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<User> addFollow(@PathVariable Long id, @RequestBody String newString) {
 		Optional<User> optionalEntity = userRepository.findById(id);
 
@@ -122,6 +120,7 @@ public class UserController {
 
 	// elimina un profilo
 	@DeleteMapping("/delete/{id}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<?> deleteUserById(@PathVariable("id") Long id) {
 		Optional<User> userOptional = userRepository.findById(id);
 		if (userOptional.isPresent()) {
@@ -134,8 +133,22 @@ public class UserController {
 		}
 	}
 
+	@DeleteMapping("/deleteBy/{username}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<?> deleteUserByUsername(@PathVariable("username") String username) {
+		Optional<User> user = userRepository.findByUsername(username);
+		if (user.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		User users = user.get();
+		users.getRoles().clear(); // rimuove tutti i ruoli dell'utente
+		userRepository.delete(users);
+		return ResponseEntity.ok().build();
+	}
+
 	// togli il follow che ho messo
 	@PostMapping("/{id}/delete-follows")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public User deleteUserFollows(@PathVariable("id") Long userId, @RequestBody String username) {
 		// recupera l'utente dal database
 		User user = userRepository.findById(userId).get();
@@ -164,6 +177,7 @@ public class UserController {
 	}
 
 	@PatchMapping("/info/{username}/profile-photo")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<String> updateProfilePhoto(@PathVariable("username") String username,
 			@RequestBody String profilePhoto) {
 		Optional<Info> infos = infoRepository.findByUsername(username);
@@ -178,20 +192,22 @@ public class UserController {
 	}
 
 	@PatchMapping("/info/{username}/description")
-	public ResponseEntity<String> updateDescriptionProfile(@PathVariable("username") String username,
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<Info> updateDescriptionProfile(@PathVariable("username") String username,
 			@RequestBody String description) {
 		Optional<Info> infos = infoRepository.findByUsername(username);
 		if (infos.isPresent()) {
 			Info info = infos.get();
 			info.setDescription(description);
-			infoRepository.save(info);
-			return ResponseEntity.ok("Description updated successfully.");
+			Info updateInfo = infoRepository.save(info);
+			return ResponseEntity.ok(updateInfo);
 		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@DeleteMapping("/delete/info/{username}")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	public ResponseEntity<String> deleteInfoByUsername(@PathVariable("username") String username) {
 		Optional<Info> infoOptional = infoRepository.findByUsername(username);
 		if (infoOptional.isPresent()) {
@@ -201,5 +217,19 @@ public class UserController {
 		} else {
 			return ResponseEntity.notFound().build();
 		}
+	}
+
+	@PostMapping("/all/follows/info")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	public ResponseEntity<List<Info>> getAllFollowsInfoByUsernames(@RequestBody String[] usernames) {
+		List<Info> profiles = new ArrayList<>();
+		for (String username : usernames) {
+			Optional<Info> info = infoRepository.findByUsername(username);
+			info.ifPresent(profiles::add);
+		}
+		if (profiles.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(profiles);
 	}
 }

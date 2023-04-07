@@ -1,0 +1,32 @@
+<p *ngIf="!admin">You are not authorized</p>
+<mat-tab-group *ngIf="admin">
+  <mat-tab label="All Users">
+    <h4 *ngIf="all.length == 0">Users not found</h4>
+    <mat-selection-list *ngIf="all.length > 0" [multiple]="false">
+      <mat-list-option *ngFor="let userFind of all; let i = index">
+        <img
+          class="followImgP"
+          *ngIf="findPhotoProfile(userFind)"
+          [src]="findPhotoProfile(userFind)"
+        />
+
+        <mat-icon class="followNoPhoto" *ngIf="!findPhotoProfile(userFind)"
+          >account_circle</mat-icon
+        >
+        <a class="name" routerLink="people" (click)="click($event)">{{
+          userFind
+        }}</a>
+
+        <div class="buttonDelete">
+          <button
+            mat-raised-button
+            [ngStyle]="{ background: '#d40000' }"
+            (click)="DeleteProfile(userFind)"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-tab>
+</mat-tab-group>

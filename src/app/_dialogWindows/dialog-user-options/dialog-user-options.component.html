@@ -1,0 +1,71 @@
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>insert_photo</mat-icon>
+    </ng-template>
+    <mat-form-field appearance="outline">
+      <mat-label>Change Profile Photo:</mat-label>
+      <input matInput [(ngModel)]="profilePhoto" />
+      <mat-error *ngIf="!Checkimg()">Is accept only image</mat-error>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">No Thanks</button>
+      <button
+        mat-button
+        *ngIf="Checkimg()"
+        cdkFocusInitial
+        (click)="updatePhotoProfileUser()"
+      >
+        Update
+      </button>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon> mode_comment</mat-icon>
+    </ng-template>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Change description:</mat-label>
+      <input matInput [(ngModel)]="profileDescription" />
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onNoClick()">No Thanks</button>
+      <button
+        mat-button
+        *ngIf="profileDescription"
+        cdkFocusInitial
+        (click)="updateDescriptionUser()"
+      >
+        Update
+      </button>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>info</mat-icon>
+    </ng-template>
+    <mat-selection-list class="delete" [multiple]="false">
+      <mat-list-option
+        *ngIf="!isButtonDisabled()"
+        (click)="incrementClickCount()"
+        >Click 6 times to see the options <br /><span
+          *ngIf="!isButtonDisabled() && clickCount >= 1 && clickCount < 6"
+          >Clicks left {{ 6 - clickCount }}
+        </span>
+      </mat-list-option>
+      <mat-list-option *ngIf="isButtonDisabled()"
+        >Success!! You make attention</mat-list-option
+      >
+      <mat-list-option (click)="deleteUser()" [disabled]="!isButtonDisabled()">
+        <p [ngStyle]="{ color: isButtonDisabled() ? '#d40000' : 'grey' }">
+          Delete Profile
+        </p>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-tab>
+</mat-tab-group>

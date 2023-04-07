@@ -1,37 +1,101 @@
-<h1>Profilo di: {{ currentUser }}</h1>
-<input
-  type="text"
-  id="descriptionProfile"
-  [(ngModel)]="profileDescription"
-  name="descriptionProfile"
-/>
-<button (click)="updateDescriptionUser()">modifica description</button>
-<input
-  type="text"
-  id="profilePhoto"
-  [(ngModel)]="profilePhoto"
-  name="profilePhoto"
-/>
-<button (click)="updatePhotoProfileUser()">modifica Photo profilo</button>
-
-<button (click)="onDeleteUser()">elimina</button>
-<br />
-<h2>Amici:</h2>
-<div *ngFor="let follow of follows">
-  <h3>
-    <a routerLink="friend" (click)="captureClick($event)">{{ follow }}</a>
-  </h3>
-</div>
-<br />
-<h2>Foto:</h2>
-<div *ngFor="let photo of myPhotos">
-  <img [src]="photo.url" />
-  <button (click)="deletePhoto(photo.id)">elimina</button>
-  <input
-    type="text"
-    id="description"
-    [(ngModel)]="currentDescription"
-    name="description"
+<div class="UserInfo">
+  <div class="header">
+    <h1>{{ currentUser }}</h1>
+    <mat-icon (click)="openDialogUserOptions()" aria-hidden="false"
+      >settings</mat-icon
+    >
+  </div>
+  <img
+    class="ProfilePhoto"
+    [src]="infoPhoto"
+    *ngIf="infoPhoto"
+    alt="Profile photo"
   />
-  <button (click)="updateDescriptionPhoto(photo.id)">modifica</button>
+  <mat-icon class="ProfileIcon" *ngIf="!infoPhoto" aria-hidden="false"
+    >account_circle</mat-icon
+  >
+  <p *ngIf="infoDesc">{{ infoDesc }}</p>
+  <p *ngIf="!infoDesc">No Description</p>
 </div>
+
+<mat-tab-group>
+  <mat-tab label="Photo">
+    <h4 *ngIf="myPhotos.length == 0">No Photos</h4>
+    <mat-grid-list *ngIf="myPhotos.length > 0" cols="3" rowHeight="1:1">
+      <mat-grid-tile *ngFor="let photo of myPhotos" colspan="1">
+        <div class="buttonContainerPhoto">
+          <img
+            class="scale-in-center"
+            (click)="showImage(photo.url!)"
+            [src]="photo.url"
+          />
+
+          <button
+            (click)="OptionsImage(photo.id!, photo.url!, photo)"
+            mat-raised-button
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-tab>
+  <mat-tab label="Follows">
+    <h4 *ngIf="follows.length == 0">No follows</h4>
+    <mat-selection-list *ngIf="follows.length > 0" [multiple]="false">
+      <mat-list-option *ngFor="let follow of follows; let i = index">
+        <img
+          class="followImgP"
+          *ngIf="findPhotoProfile(follow)"
+          [src]="findPhotoProfile(follow)"
+        />
+
+        <mat-icon class="followNoPhoto" *ngIf="!findPhotoProfile(follow)"
+          >account_circle</mat-icon
+        >
+        <a class="name" routerLink="people" (click)="click($event)">{{
+          follow
+        }}</a>
+        <div class="buttonFlwlist">
+          <button
+            mat-raised-button
+            *ngIf="!flw![i]"
+            (click)="friend(follow, i)"
+          >
+            Follow
+          </button>
+          <button
+            mat-raised-button
+            [ngStyle]="{ background: '#575757' }"
+            *ngIf="flw![i]"
+            (click)="unfollow(follow, i)"
+          >
+            Unfollow
+          </button>
+        </div>
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-tab>
+
+  <mat-tab label="Liked">
+    <h4 *ngIf="likedPhotos!.length == 0">No follows</h4>
+    <mat-grid-list *ngIf="likedPhotos!.length > 0" cols="3" rowHeight="1:1">
+      <mat-grid-tile *ngFor="let photo of likedPhotos" colspan="1">
+        <div class="buttonContainerPhoto">
+          <img
+            class="scale-in-center"
+            (click)="showImage(photo.url!)"
+            [src]="photo.url"
+          />
+
+          <button
+            (click)="OptionsLikedImage(photo, findPhotoProfile(photo.nickname))"
+            mat-raised-button
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </mat-tab>
+</mat-tab-group>

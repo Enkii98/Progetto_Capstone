@@ -1,0 +1,24 @@
+<div class="page scale-up-center">
+  <img class="logo" src="../../assets/ImgLogo/RasterArt.png" alt="RasterArt" />
+</div>
+<mat-grid-list cols="4" rowHeight="100px">
+  <mat-grid-tile
+    *ngFor="let tile of tiles"
+    [colspan]="tile.cols"
+    [rowspan]="tile.rows"
+  >
+    <img
+      [ngClass]="{
+        'kenburns-top-right': tile.name === 'top-right',
+        'kenburns-top': tile.name === 'top',
+        'kenburns-right': tile.name === 'right',
+        'kenburns-bottom-right': tile.name === 'bottom-right',
+        'kenburns-bottom': tile.name === 'bottom',
+        'kenburns-bottom-left': tile.name === 'bottom-left',
+        'kenburns-left': tile.name === 'left',
+        'kenburns-top-left': tile.name === 'top-left'
+      }"
+      [src]="tile.url"
+    />
+  </mat-grid-tile>
+</mat-grid-list>

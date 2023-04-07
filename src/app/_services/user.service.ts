@@ -1,8 +1,12 @@
 // fornisce metodi per accedere alle risorse pubbliche e protette.I cookie HttpOnly verranno inviati automaticamente insieme alle richieste HTTP (tramite Http Interceptor), quindi usiamo semplicemente il modulo Http senza preoccuparci di JWT.
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { User } from '../_interfaces/User';
 import { infoUser } from '../_interfaces/infoUser';
 
@@ -14,6 +18,10 @@ const API_URL = 'http://localhost:8080/api/users';
 export class UserService {
   constructor(private http: HttpClient) {}
 
+  isAdmin(): Observable<any> {
+    return this.http.get<boolean>(`${API_URL}/admin`);
+  }
+
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${API_URL}/user/list`);
   }
@@ -22,8 +30,8 @@ export class UserService {
     return this.http.get<string[]>(`${API_URL}/usernames/list`);
   }
 
-  getUserByUsername(user: any): Observable<User[]> {
-    return this.http.get<User[]>(`${API_URL}/user/${user}`);
+  getAllEmails(): Observable<string[]> {
+    return this.http.get<string[]>(`${API_URL}/emails/list`);
   }
 
   getMyFollow(user: Number): Observable<String[]> {
@@ -43,6 +51,12 @@ export class UserService {
     });
   }
 
+  searchUsers(search: string): Observable<string[]> {
+    return this.http.get<string[]>(
+      `${API_URL}/search/${search}?username=${localStorage.getItem('username')}`
+    );
+  }
+
   async deleteUser(): Promise<any> {
     try {
       const response = await this.http
@@ -56,8 +70,20 @@ export class UserService {
     }
   }
 
+  async deleteUserByUsername(username: any): Promise<any> {
+    try {
+      const response = await this.http
+        .delete(`${API_URL}/deleteBy/${username}`, {
+          withCredentials: true,
+        })
+        .toPromise();
+      return response;
+    } catch (error) {
+      return console.log(error);
+    }
+  }
+
   deleteAllFollows(username: any): Observable<any> {
-    console.log('io sono username:', username);
     return this.http.delete(
       `http://localhost:8080/api/public/deleteAllfollows?username=${username}`
     );
@@ -65,9 +91,13 @@ export class UserService {
 
   ///////////////////////////////////////INFO///////////////////////////////////////////
 
-  getInfoByUsername(): Observable<infoUser[]> {
-    const url = `${API_URL}/info/username/${localStorage.getItem('username')}`;
+  getInfoByUsername(user: any): Observable<infoUser[]> {
+    const url = `${API_URL}/info/username/${user}`;
     return this.http.get<infoUser[]>(url);
+  }
+
+  getAllFollowsInfo(usernames: any[]): Observable<any> {
+    return this.http.post(`${API_URL}/all/follows/info`, usernames);
   }
 
   createInfo(username: any): Observable<infoUser> {

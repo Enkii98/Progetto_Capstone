@@ -1,0 +1,27 @@
+<mat-card>
+  <mat-card-subtitle>
+    <img
+      mat-card-avatar
+      class="image-card"
+      *ngIf="profilePhoto"
+      [src]="profilePhoto"
+    />
+    <mat-icon mat-card-avatar *ngIf="!profilePhoto" aria-hidden="false"
+      >account_circle</mat-icon
+    >
+    <p>{{ username }}</p></mat-card-subtitle
+  >
+  <mat-card-title>{{ title }}</mat-card-title>
+  <mat-card-content>
+    <p *ngIf="description">
+      &nbsp;<mat-icon *ngIf="description" aria-hidden="false"
+        >speaker_notes</mat-icon
+      >&nbsp;&nbsp;{{ description }}
+    </p>
+    <p *ngIf="!description">
+      &nbsp;<mat-icon *ngIf="!description" aria-hidden="false"
+        >speaker_notes</mat-icon
+      >&nbsp;&nbsp; No Description...
+    </p>
+  </mat-card-content>
+</mat-card>

@@ -1,4 +1,3 @@
-import { MyPhotos } from './my-photos';
 import { Role } from './Role';
 
 export interface User {

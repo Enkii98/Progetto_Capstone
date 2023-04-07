@@ -1,0 +1,64 @@
+<div mat-dialog-content>
+  <label>Choose type of search: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+  <br /><br />
+  <mat-radio-group>
+    <mat-radio-button (click)="selectClick('Photo')" value="Photo"
+      >&nbsp;Photo &nbsp;&nbsp;&nbsp;</mat-radio-button
+    >
+    <mat-radio-button
+      *ngIf="logged()"
+      (click)="selectClick('Users')"
+      value="Users"
+      >&nbsp;Users</mat-radio-button
+    >
+  </mat-radio-group>
+  <br />
+  <mat-chip-list *ngIf="typeSelect === 'Photo'" aria-label="Category">
+    <mat-chip
+      [ngStyle]="{ background: 'green' }"
+      (click)="data.dataSearch = 'Nature'"
+      >Nature</mat-chip
+    >
+    <mat-chip
+      [ngStyle]="{ background: 'orange' }"
+      (click)="data.dataSearch = 'Art'"
+      >Art</mat-chip
+    >
+    <mat-chip
+      [ngStyle]="{ background: 'yellow' }"
+      (click)="data.dataSearch = 'Macro'"
+      >Macro</mat-chip
+    >
+    <mat-chip
+      [ngStyle]="{ background: '#9C27B0' }"
+      (click)="data.dataSearch = 'Space'"
+      >Space</mat-chip
+    >
+    <mat-chip
+      [ngStyle]="{ background: 'brown' }"
+      (click)="data.dataSearch = 'Animal'"
+      >Animal</mat-chip
+    >
+    <mat-chip
+      [ngStyle]="{ background: '#00acc1' }"
+      (click)="data.dataSearch = 'Fantasy'"
+      >Fantasy</mat-chip
+    >
+  </mat-chip-list>
+  <br />
+  <mat-form-field appearance="outline">
+    <mat-label>Search {{ typeSelect }}:</mat-label>
+    <input matInput [(ngModel)]="data.dataSearch" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button
+    mat-button
+    *ngIf="typeSelect !== 'noSelect' && data.dataSearch"
+    [mat-dialog-close]="data.dataSearch"
+    cdkFocusInitial
+  >
+    Ok
+  </button>
+</div>

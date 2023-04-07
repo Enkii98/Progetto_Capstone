@@ -24,14 +24,6 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     private eventBusService: EventBusService
   ) {}
 
-  // intercept(
-  //   req: HttpRequest<any>,
-  //   next: HttpHandler
-  // ): Observable<HttpEvent<any>> {
-  //   req = req.clone({
-  //     withCredentials: true,
-  //   });
-
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler

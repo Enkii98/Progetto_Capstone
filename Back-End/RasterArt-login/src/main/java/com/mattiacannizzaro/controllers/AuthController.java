@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mattiacannizzaro.models.Info;
 import com.mattiacannizzaro.models.Role;
 import com.mattiacannizzaro.models.RoleType;
 import com.mattiacannizzaro.models.User;
@@ -28,12 +29,12 @@ import com.mattiacannizzaro.payload.request.LoginRequest;
 import com.mattiacannizzaro.payload.request.SignupRequest;
 import com.mattiacannizzaro.payload.response.MessageResponse;
 import com.mattiacannizzaro.payload.response.UserInfoResponse;
+import com.mattiacannizzaro.repository.InfoRepository;
 import com.mattiacannizzaro.repository.RoleRepository;
 import com.mattiacannizzaro.repository.UserRepository;
 import com.mattiacannizzaro.security.jwt.JwtUtils;
 import com.mattiacannizzaro.security.services.UserDetailsImpl;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -47,11 +48,15 @@ public class AuthController {
 	RoleRepository roleRepository;
 
 	@Autowired
+	InfoRepository infoRepository;
+
+	@Autowired
 	PasswordEncoder encoder;
 
 	@Autowired
 	JwtUtils jwtUtils;
 
+	// login del utente con autenticazione e rilascio del token nei cookie
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -72,6 +77,8 @@ public class AuthController {
 						userDetails.getUsername(), userDetails.getEmail(), roles));
 	}
 
+	// registrazione nuovo utente, di default viene assegnato solo il ruolo USER,
+	// --> per assegnare ruolo ADMIN utilizzare Postman <--
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -82,9 +89,10 @@ public class AuthController {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
 
-		// Create new user's account
 		User user = new User(signUpRequest.getName(), signUpRequest.getSurname(), signUpRequest.getUsername(),
 				signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()));
+
+		Info info = Info.builder().username(signUpRequest.getUsername()).build();
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
 
@@ -111,10 +119,12 @@ public class AuthController {
 
 		user.setRoles(roles);
 		userRepository.save(user);
+		infoRepository.save(info);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 
+	// logout dall account
 	@PostMapping("/signout")
 	public ResponseEntity<?> logoutUser() {
 		ResponseCookie cookie = jwtUtils.getCleanJwtCookie();

@@ -1,0 +1,62 @@
+<div class="submit-form">
+  <div *ngIf="!submitted">
+    <mat-form-field appearance="outline">
+      <mat-label>Url</mat-label>
+      <input
+        matInput
+        type="text"
+        class="form-control"
+        id="title"
+        required
+        [(ngModel)]="photo.url"
+        name="title"
+      />
+      <mat-error *ngIf="!img()">Is accept only image</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input
+        matInput
+        class="form-control"
+        id="description"
+        required
+        [(ngModel)]="photo.description"
+        name="description"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Alt</mat-label>
+      <input
+        matInput
+        class="form-control"
+        id="alt"
+        required
+        [(ngModel)]="photo.alt"
+        name="alt"
+      />
+    </mat-form-field>
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <div *ngIf="!submitted">
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button
+      *ngIf="photo.url && img()"
+      mat-button
+      (click)="savePhoto()"
+      cdkFocusInitial
+    >
+      Add
+    </button>
+  </div>
+  <div class="success" *ngIf="submitted">
+    <h4>Photo was submitted successfully! Check your profile</h4>
+    <div class="buttonNew">
+      <button mat-button (click)="onNoClick()">No Thanks</button>
+      <button mat-button (click)="newPhoto()">Add another</button>
+    </div>
+  </div>
+</div>

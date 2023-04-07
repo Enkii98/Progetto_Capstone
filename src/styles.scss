@@ -1,4 +1,395 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+  background-color: #111111;
+  color: beige;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+a {
+  color: #ffb300;
+  text-decoration: none;
+}
+
+p {
+  font-size: large;
+}
+
+//list color text
+.mat-list-base .mat-list-item .mat-list-item-content-reverse,
+.mat-list-base .mat-list-option .mat-list-item-content-reverse {
+  color: beige;
+}
+
+//input colore label
+.mat-form-field.mat-focused .mat-form-field-label {
+  color: #ffb300 !important;
+}
+
+//colore radio button
+.mat-radio-button.mat-accent .mat-radio-inner-circle,
+.mat-radio-button.mat-accent
+  .mat-radio-ripple
+  .mat-ripple-element:not(.mat-radio-persistent-ripple),
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
+.mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+  background-color: #d40000 !important;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #d40000 !important;
+}
+
+//finestra modale
+.mat-dialog-container {
+  background-color: #1a1a1a;
+  padding: 5px !important;
+  width: fit-content !important;
+  height: fit-content !important;
+  overflow: unset !important;
+  color: beige;
+
+  .mat-dialog-actions {
+    padding: 8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 52px;
+    align-items: center;
+    box-sizing: content-box;
+    margin-bottom: -15px;
+    justify-content: space-around;
+  }
+}
+
+//bordo input senza toccare
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #575757;
+}
+
+//linea del testo del input
+.mat-input-element {
+  caret-color: #ffb300;
+}
+
+//focus su input
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline,
+.mat-form-field-appearance-outline.mat-form-field-invalid
+  .mat-form-field-outline {
+  color: #ffb300;
+}
+
+//css input
+.mat-form-field {
+  color: beige;
+  font-size: 15px;
+  padding: 10px;
+  width: 300px;
+
+  //placeholder colore
+  input::placeholder {
+    color: #575757;
+  }
+}
+
+//bottoni
+.mat-raised-button {
+  background-color: #ffb300;
+}
+
+//bottone in hover
+.mat-raised-button:hover {
+  background-color: #ff9500;
+}
+
+//bordo input errato
+.mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid
+  .mat-form-field-outline-thick {
+  color: #d40000;
+}
+
+//messaggio errore sotto input
+.mat-form-field-appearance-outline .mat-form-field-subscript-wrapper {
+  padding: 0 1em;
+  color: #d40000;
+  font-size: small;
+}
+//colore messaggio errore input
+.mat-error {
+  color: #d40000;
+}
+
+//header tab switch
+.mat-ripple:not(:empty) {
+  color: beige;
+  width: 100%;
+}
+
+.mat-card > :first-child,
+.mat-card-content > :first-child {
+  margin-bottom: 15px;
+}
+
+//colore header tab attivo
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #d40000;
+}
+
+//paginator
+.mat-paginator {
+  color: beige;
+  background-color: #1a1a1a;
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+}
+
+//bottoni paginator
+.mat-button .mat-button-wrapper > *,
+.mat-flat-button .mat-button-wrapper > *,
+.mat-stroked-button .mat-button-wrapper > *,
+.mat-raised-button .mat-button-wrapper > *,
+.mat-icon-button .mat-button-wrapper > *,
+.mat-fab .mat-button-wrapper > *,
+.mat-mini-fab .mat-button-wrapper > * {
+  color: beige;
+}
+
+//bottone like
+.mat-icon-button i,
+.mat-icon-button .mat-icon {
+  line-height: 8px;
+}
+
+//bottone visibilita password
+.mat-form-field:not(.mat-form-field-appearance-legacy)
+  .mat-form-field-prefix
+  .mat-icon-button
+  .mat-icon,
+.mat-form-field:not(.mat-form-field-appearance-legacy)
+  .mat-form-field-suffix
+  .mat-icon-button
+  .mat-icon {
+  color: #575757;
+}
+
+//bottone disattivato
+.mat-flat-button.mat-primary.mat-button-disabled,
+.mat-flat-button.mat-accent.mat-button-disabled,
+.mat-flat-button.mat-warn.mat-button-disabled,
+.mat-flat-button.mat-button-disabled.mat-button-disabled,
+.mat-raised-button.mat-primary.mat-button-disabled,
+.mat-raised-button.mat-accent.mat-button-disabled,
+.mat-raised-button.mat-warn.mat-button-disabled,
+.mat-raised-button.mat-button-disabled.mat-button-disabled,
+.mat-fab.mat-primary.mat-button-disabled,
+.mat-fab.mat-accent.mat-button-disabled,
+.mat-fab.mat-warn.mat-button-disabled,
+.mat-fab.mat-button-disabled.mat-button-disabled,
+.mat-mini-fab.mat-primary.mat-button-disabled,
+.mat-mini-fab.mat-accent.mat-button-disabled,
+.mat-mini-fab.mat-warn.mat-button-disabled,
+.mat-mini-fab.mat-button-disabled.mat-button-disabled {
+  background-color: #9191919f !important;
+  color: black !important;
+}
+
+app-root {
+  height: 100%;
+  width: 100%;
+  display: block;
+
+  mat-toolbar {
+    button {
+      order: 1;
+    }
+
+    span {
+      order: 2;
+    }
+  }
+  .space {
+    padding: 30px;
+  }
+
+  .inputBar {
+    order: 3;
+    margin-left: auto;
+
+    .mat-raised-button {
+      min-width: fit-content;
+      padding: 0px 6px;
+      border-radius: 60px 60px 60px 60px;
+    }
+    mat-form-field {
+      width: 100%;
+      padding: 0px;
+    }
+  }
+
+  .mat-raised-button:nth-child(2) {
+    margin-left: 20px;
+    background-color: #d40000;
+  }
+
+  //liste
+  .mat-list-text {
+    padding-right: 0px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+
+    a {
+      order: 1;
+      color: beige !important;
+      width: 200vw;
+      height: 3vh;
+    }
+
+    .buttonFlwlist {
+      order: 2;
+      flex-basis: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  mat-drawer-content {
+    margin-left: 0px !important;
+  }
+
+  .mat-drawer {
+    overflow-y: unset;
+  }
+
+  .mat-drawer.mat-drawer-side {
+    border: none;
+  }
+
+  //spazio occupato menu aperto
+  .mat-drawer-inner-container {
+    width: 178px;
+    background: #242424;
+  }
+
+  //menu aperto e contenitore rotte
+  .mat-drawer-container {
+    display: initial;
+    color: beige;
+  }
+
+  //menubar
+  .mat-toolbar-row,
+  .mat-toolbar-single-row {
+    position: fixed;
+    z-index: 3;
+    background-color: #1a1a1a;
+  }
+}
+
+app-signin {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+}
+
+app-pexels-photo {
+  .mat-raised-button {
+    min-width: fit-content;
+    padding: 0px 6px;
+    border-radius: 60px 60px 60px 60px;
+  }
+}
+
+app-login {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+}
+
+app-profile {
+  .mat-tab-body-wrapper {
+    overflow: hidden;
+    height: 100vh;
+  }
+}
+
+app-profile-other-user {
+  .mat-tab-body-wrapper {
+    overflow: hidden;
+    height: 100vh;
+  }
+}
+
+app-dialog-user-options {
+  .mat-tab-body-content {
+    overflow: hidden !important;
+  }
+
+  .mat-form-field-wrapper {
+    padding-inline: 20px !important;
+  }
+}
+
+.mat-form-field-empty.mat-form-field-label,
+.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  color: rgba(145, 145, 145, 0.6235294118);
+}
+
+app-home {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+
+  @media (hover: none) {
+    .mat-expansion-panel:not(.mat-expanded):not([aria-disabled="true"])
+      .mat-expansion-panel-header:hover {
+      background-color: transparent;
+    }
+  }
+
+  //ombra expansion panel
+  .mat-expansion-panel:not([class*="mat-elevation-z"]) {
+    box-shadow: none;
+  }
+
+  //colore quando clicko la descrizione
+  .mat-expansion-panel-header:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  //bottone like
+  .mat-button.mat-warn,
+  .mat-icon-button.mat-warn,
+  .mat-stroked-button.mat-warn {
+    width: 60px;
+    height: 60px;
+    z-index: 1;
+  }
+
+  //descrizione
+  .mat-expansion-panel {
+    top: -60px;
+    background-color: transparent;
+    color: beige;
+    z-index: 0;
+  }
+}

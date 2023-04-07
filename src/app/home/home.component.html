@@ -1,6 +1,69 @@
-<div *ngFor="let photo of homePhoto; let i = index">
-  <a routerLink="friend" (click)="captureClick($event)">{{ photo.nickname }}</a>
+<!-- <div *ngFor="let photo of homePhoto; let i = index">
+  <a routerLink="people" (click)="captureClick($event)">{{ photo.nickname }}</a>
   <img [src]="photo.url" />
-  <button (click)="addLike(i)">like</button>
-  <button (click)="removeLike(i)">removelike</button>
+  <button *ngIf="!liked[i]" (click)="addLike(i)">like</button>
+  <button *ngIf="liked[i]" (click)="removeLike(i)">removelike</button>
+</div> -->
+
+<div *ngIf="homePhoto.length > 0">
+  <div class="scale-in-top" *ngFor="let photo of homePhoto; let i = index">
+    <mat-card class="home-card">
+      <mat-card-header>
+        <img
+          mat-card-avatar
+          class="image-card"
+          *ngIf="findPhotoProfile(photo.nickname)"
+          [src]="findPhotoProfile(photo.nickname)"
+        />
+
+        <mat-icon
+          mat-card-avatar
+          class="image-card"
+          class="ProfileIcon"
+          *ngIf="!findPhotoProfile(photo.nickname)"
+          aria-hidden="false"
+          >account_circle</mat-icon
+        >
+        <mat-card-title
+          ><a routerLink="people" (click)="captureClick($event)">{{
+            photo.nickname
+          }}</a></mat-card-title
+        >
+      </mat-card-header>
+      <img mat-card-image (click)="showImage(photo.url!)" [src]="photo.url" />
+      <div class="btn">
+        <button
+          class="btn"
+          mat-icon-button
+          *ngIf="!liked[i]"
+          (click)="addLike(i)"
+        >
+          <mat-icon *ngIf="!liked[i]" id="noLiked">favorite</mat-icon>
+        </button>
+        <button
+          class="btn"
+          mat-icon-button
+          *ngIf="liked[i]"
+          (click)="removeLike(i)"
+        >
+          <mat-icon *ngIf="liked[i]" id="liked">favorite</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="
+            Details(
+              photo.nickname,
+              photo.alt,
+              photo.description,
+              findPhotoProfile(photo.nickname)
+            )
+          "
+        >
+          <mat-icon>info</mat-icon>
+        </button>
+      </div>
+    </mat-card>
+  </div>
 </div>
+
+<h4 *ngIf="homePhoto.length == 0">Empty Home</h4>

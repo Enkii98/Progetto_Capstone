@@ -1,0 +1,121 @@
+.buttonContainerPhoto {
+  .mat-raised-button {
+    min-width: 0px;
+  }
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  position: relative;
+  button {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 40px 40px 40px 40px;
+    background-color: #f5f5dc38;
+    padding: 0px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+  }
+
+  button:hover {
+    background-color: beige;
+  }
+
+  img {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  mat-icon {
+    margin-bottom: 3px;
+    width: 28px;
+    color: black;
+    cursor: pointer;
+  }
+}
+
+.ProfileIcon {
+  font-size: 100px;
+}
+
+.ProfilePhoto {
+  width: 100px;
+  height: 100px;
+  border-radius: 60px 60px 60px 60px;
+}
+
+.UserInfo {
+  padding-left: 15px;
+  padding-right: 15px;
+  h1 {
+    padding-top: 14px;
+    padding-left: 9px;
+  }
+
+  p {
+    margin: 15px 0px 12px 0px;
+    background-color: black;
+    border-radius: 10px 10px 10px 10px;
+    padding: 10px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  mat-icon {
+    cursor: pointer;
+    padding-right: 9px;
+  }
+}
+
+.followNoPhoto {
+  font-size: 40px !important;
+  width: 40px;
+  height: 40px;
+}
+
+.followImgP {
+  width: 40px;
+  height: 40px;
+  border-radius: 25px 25px 25px 25px;
+}
+
+.name {
+  padding-left: 10px !important;
+}
+
+.scale-in-center {
+  -webkit-animation: scale-in-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    both;
+  animation: scale-in-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@-webkit-keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+}

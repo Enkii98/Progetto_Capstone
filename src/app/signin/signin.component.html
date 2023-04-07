@@ -1,44 +1,81 @@
-<div class="example-container">
+<div class="signin-container">
+  <h2>Sign in</h2>
   <form
     *ngIf="!isSuccessful"
     [formGroup]="form"
     (ngSubmit)="form.valid && onSubmit()"
   >
-    <h2>Sign in</h2>
-    <mat-form-field>
+    <p>Already a member?<a routerLink="/login"> Log In</a></p>
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
       <input
         formControlName="name"
         ngDefaultControl
         matInput
         placeholder="Name"
       />
+      <button
+        *ngIf="form.get('name')!.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="form.get('name')!.setValue('')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
       <mat-error *ngIf="!getErrorMessage('name', 'required')"
         >You can only use letters</mat-error
       >
       <mat-error *ngIf="getErrorMessage('name', 'required')"
         >You must enter a value</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('name', 'pattern')"
+        >Cannot contain empty spaces</mat-error
       > </mat-form-field
-    ><mat-form-field
+    ><mat-form-field appearance="outline"
+      ><mat-label>Surname</mat-label
       ><input
         formControlName="surname"
         ngDefaultControl
         matInput
         placeholder="Surname"
       />
+      <button
+        *ngIf="form.get('surname')!.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="form.get('surname')!.setValue('')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
       <mat-error *ngIf="!getErrorMessage('surname', 'required')"
         >You can only use letters</mat-error
       >
       <mat-error *ngIf="getErrorMessage('surname', 'required')"
         >You must enter a value</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('surname', 'pattern')"
+        >Cannot contain empty spaces</mat-error
       > </mat-form-field
-    ><mat-form-field
-      ><input
+    ><mat-form-field appearance="outline"
+      ><mat-label>Username</mat-label>
+      <input
         formControlName="username"
         ngDefaultControl
         matInput
         placeholder="Username"
       />
-      <mat-error *ngIf="getErrorMessage('username', 'minLength')"
+      <button
+        *ngIf="form.get('username')!.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="form.get('username')!.setValue('')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <mat-error *ngIf="form.get('username')!.value.length < 3"
         >Must contain at least 3 characters</mat-error
       >
       <mat-error *ngIf="getErrorMessage('username', 'required')"
@@ -46,14 +83,36 @@
       >
       <mat-error *ngIf="getErrorMessage('username', 'maxLength')"
         >Can contain up to 20 characters</mat-error
+      >
+      <mat-error
+        *ngIf="
+          form.get('username')!.value &&
+          form.get('username')!.value.length > 3 &&
+          !getErrorMessage('username', 'pattern')
+        "
+      >
+        Username already used, change it</mat-error
+      >
+      <mat-error *ngIf="getErrorMessage('username', 'pattern')"
+        >Cannot contain empty spaces</mat-error
       > </mat-form-field
-    ><mat-form-field
+    ><mat-form-field appearance="outline">
+      <mat-label>Email</mat-label
       ><input
         formControlName="email"
         ngDefaultControl
         matInput
         placeholder="Email"
       />
+      <button
+        *ngIf="form.get('email')!.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="form.get('email')!.setValue('')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
       <mat-error *ngIf="getErrorMessage('email', 'email')"
         >Must have an email format</mat-error
       >
@@ -61,15 +120,31 @@
         >You must enter a value</mat-error
       >
       <mat-error *ngIf="getErrorMessage('email', 'pattern')"
-        >Must have an email format</mat-error
+        >Cannot contain empty spaces</mat-error
+      >
+      <mat-error
+        *ngIf="form.get('email')!.value && !getErrorMessage('email', 'pattern')"
+      >
+        Email already used, change it</mat-error
       > </mat-form-field
-    ><mat-form-field
-      ><input
+    ><mat-form-field appearance="outline"
+      ><mat-label>Password</mat-label>
+      <input
         formControlName="password"
         ngDefaultControl
         matInput
         placeholder="Password"
+        [type]="hide ? 'password' : 'text'"
       />
+      <button
+        mat-icon-button
+        matSuffix
+        (click)="hide = !hide"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide"
+      >
+        <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+      </button>
       <mat-error *ngIf="getErrorMessage('password', 'minLength')"
         >Must contain at least 6 characters</mat-error
       >
@@ -77,20 +152,31 @@
         >You must enter a value</mat-error
       >
       <mat-error *ngIf="getErrorMessage('password', 'pattern')"
-        >Must contain:<br />- Capital letter<br />- Lowercase letter<br />-
-        Number<br />- Special character</mat-error
+        >Must contain: - Capital letter - Lowercase letter - Number - Special
+        character</mat-error
       >
       <mat-error *ngIf="getErrorMessage('password', 'maxLength')"
         >Can contain up to 40 characters</mat-error
       >
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Confirm Password</mat-label>
       <input
         formControlName="confirmPassword"
         ngDefaultControl
         matInput
         placeholder="ConfirmPassword"
+        [type]="hide ? 'password' : 'text'"
       />
+      <button
+        *ngIf="form.get('confirmPassword')!.value"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="form.get('confirmPassword')!.setValue('')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
       <mat-error *ngIf="getErrorMessage('confirmPassword', 'required')"
         >You must enter a value</mat-error
       ><mat-error *ngIf="!getErrorMessage('confirmPassword', 'required')"
@@ -98,9 +184,23 @@
       >
     </mat-form-field>
 
-    <button [disabled]="!signinCheck(form)" type="submit" mat-raised-button>
-      sign
-    </button>
-    <button (click)="onReset()" mat-raised-button>reset</button>
+    <div class="signButton">
+      <button class="resetButton" (click)="onReset()" mat-raised-button>
+        Reset
+      </button>
+      <button
+        [disabled]="
+          !signinCheck(
+            form,
+            form.get('username')!.value,
+            form.get('email')!.value
+          )
+        "
+        type="submit"
+        mat-raised-button
+      >
+        SignIn
+      </button>
+    </div>
   </form>
 </div>

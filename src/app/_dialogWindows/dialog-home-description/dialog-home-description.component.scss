@@ -1,0 +1,40 @@
+.image-card {
+  background-size: cover;
+}
+mat-card {
+  background-color: #1a1a1a;
+
+  mat-card-subtitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  mat-card-title {
+    color: #ffb300;
+  }
+  p {
+    color: beige;
+    margin-bottom: 5px;
+    margin-inline: 15px;
+  }
+
+  mat-icon {
+    color: beige;
+  }
+
+  mat-card-subtitle {
+    margin-bottom: 30px;
+  }
+}
+
+.mat-card > :last-child:not(.mat-card-footer),
+.mat-card-content > :last-child:not(.mat-card-footer) {
+  margin-bottom: 0;
+  background-color: black;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.mat-card-content {
+  padding: 20px;
+}

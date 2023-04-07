@@ -18,4 +18,6 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
 
 	List<Photo> findByNicknameIn(List<String> nicknameList);
 
+	List<Photo> findByLikesContaining(String likes);
+
 }

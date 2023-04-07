@@ -1,4 +1,91 @@
-<a href="/login" routerLink="login">Login</a>
-<a href="/signin" routerLink="signin">signin</a>
-<button *ngIf="logged()" (click)="logout()">logout</button>
-<router-outlet></router-outlet>
+<mat-toolbar>
+  <button
+    mat-button
+    (click)="drawer.toggle(); showDrawer = true"
+    mat-icon-button
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span
+    ><img class="logo" src="../../assets/ImgLogo/RasterArt.png" alt="RasterArt"
+  /></span>
+
+  <div class="inputBar">
+    <button mat-raised-button (click)="openDialogSearch()">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button *ngIf="logged()" mat-raised-button (click)="openDialogAddPhoto()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-drawer-container autosize>
+  <mat-drawer #drawer mode="side">
+    <div
+      class="space-drawer"
+      *ngIf="showDrawer"
+      (click)="drawer.close(); showDrawer = !showDrawer"
+    ></div>
+    <div class="space"></div>
+    <br />
+
+    <mat-selection-list [multiple]="false">
+      <mat-list-option
+        *ngIf="!logged()"
+        (click)="drawer.close()"
+        routerLink="/login"
+      >
+        <mat-icon class="icon" aria-hidden="false">input</mat-icon>
+        <p>&nbsp;&nbsp;Log In</p>
+      </mat-list-option>
+      <mat-list-option
+        *ngIf="!logged()"
+        (click)="drawer.close()"
+        routerLink="/signin"
+      >
+        <mat-icon class="icon" aria-hidden="false">account_circle</mat-icon>
+        <p>&nbsp;&nbsp;Sign In</p>
+      </mat-list-option>
+      <mat-list-option
+        *ngIf="logged()"
+        (click)="drawer.close()"
+        routerLink="/home"
+      >
+        <mat-icon class="icon" aria-hidden="false">home</mat-icon>
+        <p>&nbsp;&nbsp;Home</p>
+      </mat-list-option>
+      <mat-list-option
+        *ngIf="logged()"
+        (click)="drawer.close()"
+        routerLink="/profile"
+      >
+        <mat-icon class="icon" aria-hidden="false">account_circle</mat-icon>
+        <p>&nbsp;&nbsp;Profile</p>
+      </mat-list-option>
+
+      <mat-list-option
+        *ngIf="logged() && admin"
+        (click)="drawer.close()"
+        routerLink="/admin"
+      >
+        <mat-icon class="icon" aria-hidden="false">stars</mat-icon>
+        <p>&nbsp;&nbsp;Admin Board</p>
+      </mat-list-option>
+
+      <mat-list-option
+        *ngIf="logged()"
+        (click)="logout(); drawer.close()"
+        routerLink="/login"
+      >
+        <mat-icon class="icon" aria-hidden="false">exit_to_app</mat-icon>
+        <p>&nbsp;&nbsp;Logout</p>
+      </mat-list-option>
+    </mat-selection-list>
+    <button mat-raised-button></button>
+  </mat-drawer>
+  <div class="space"></div>
+
+  <router-outlet></router-outlet>
+</mat-drawer-container>
