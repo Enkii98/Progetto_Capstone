@@ -1,5 +1,13 @@
+.home {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .home-card {
-  width: 90%;
+  width: 340px;
   height: 20%;
   background-color: #191919;
   color: beige;

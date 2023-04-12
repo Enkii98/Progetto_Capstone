@@ -1,11 +1,4 @@
-<!-- <div *ngFor="let photo of homePhoto; let i = index">
-  <a routerLink="people" (click)="captureClick($event)">{{ photo.nickname }}</a>
-  <img [src]="photo.url" />
-  <button *ngIf="!liked[i]" (click)="addLike(i)">like</button>
-  <button *ngIf="liked[i]" (click)="removeLike(i)">removelike</button>
-</div> -->
-
-<div *ngIf="homePhoto.length > 0">
+<div class="home" *ngIf="homePhoto.length > 0">
   <div class="scale-in-top" *ngFor="let photo of homePhoto; let i = index">
     <mat-card class="home-card">
       <mat-card-header>
