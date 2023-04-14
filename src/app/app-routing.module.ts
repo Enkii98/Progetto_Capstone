@@ -12,9 +12,11 @@ import { AuthGuard } from './_helpers/auth.guard';
 import { AppComponent } from './app.component';
 import { ShowcaseComponent } from './showcase/showcase.component';
 import { ListUsersForAdminComponent } from './list-users-for-admin/list-users-for-admin.component';
+import { AboutMeComponent } from './about-me/about-me.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'aboutMe', component: AboutMeComponent },
   { path: 'signin/login', component: LoginComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'login/signin', component: SigninComponent },

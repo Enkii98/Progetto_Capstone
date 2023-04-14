@@ -48,6 +48,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { AboutMeComponent } from './about-me/about-me.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
     DialogHomeDescriptionComponent,
     DialogLikedPhotoComponent,
     ShowcaseComponent,
+    AboutMeComponent,
   ],
   imports: [
     AppRoutingModule,

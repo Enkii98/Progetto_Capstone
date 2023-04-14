@@ -14,19 +14,6 @@ public class RasterArtLoginApplication {
 		SpringApplication.run(RasterArtLoginApplication.class, args);
 	}
 
-//	@Bean
-//	public CorsFilter corsFilter() {
-//		CorsConfiguration corsConfiguration = new CorsConfiguration();
-//		corsConfiguration.setAllowCredentials(true);
-//		corsConfiguration.addAllowedOrigin("http://localhost:4200");
-//		corsConfiguration.addAllowedHeader("*");
-//		corsConfiguration.addAllowedMethod("*");
-//		corsConfiguration.setMaxAge((long) 3600);
-//		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//		source.registerCorsConfiguration("/**", corsConfiguration);
-//		return new CorsFilter(source);
-//	}
-
 	@Bean
 	public CorsFilter corsFilter() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -36,8 +23,6 @@ public class RasterArtLoginApplication {
 		corsConfiguration.addAllowedHeader("*");
 		corsConfiguration.addAllowedMethod("*");
 		corsConfiguration.setMaxAge((long) 3600);
-		// set the value of Access-Control-Allow-Origin to a specific value instead of
-		// using the wildcard *
 		corsConfiguration.addExposedHeader("Access-Control-Allow-Origin");
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", corsConfiguration);

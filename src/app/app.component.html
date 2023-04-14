@@ -82,6 +82,11 @@
         <mat-icon class="icon" aria-hidden="false">exit_to_app</mat-icon>
         <p>&nbsp;&nbsp;Logout</p>
       </mat-list-option>
+
+      <mat-list-option (click)="drawer.close()" routerLink="/aboutMe">
+        <mat-icon class="icon" aria-hidden="false">info</mat-icon>
+        <p>&nbsp;&nbsp;About Me</p>
+      </mat-list-option>
     </mat-selection-list>
     <button mat-raised-button></button>
   </mat-drawer>
