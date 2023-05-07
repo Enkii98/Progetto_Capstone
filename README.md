@@ -6,7 +6,7 @@ Il mio capstone project --> RasterArt
 
 ---
 
-(La cartella del Back-End è nella cartella principale del progetto angular )
+(La cartella del Back-End è nella cartella principale "Back-end" del progetto angular.Nella cartella è stato anche incluso un sql con degli users gia creati)
 
 ---
 
